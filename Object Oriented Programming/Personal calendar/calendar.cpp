@@ -331,4 +331,41 @@ bool Calendar::saveByWorkHours(const char* startDate, const char* endDate) {
     return true;
 }
 
-char** findDate(const char*, size_t, const char*, const char*);
+bool Calendar::isThereTime(const char* date, size_t duration, const char* startTime, const char* endTime) {
+    Calendar chosen("random.txt");
+    size_t startMinutes = getTimeInMinutes(startTime);
+    size_t endMinutes = getTimeInMinutes(endTime);
+
+    for (int i = 0; i < this->size; ++i) {
+        if (strcmp(this->meetings[i]->getDate(), date) == 0) {
+            chosen.addMeeting(*this->meetings[i]);
+        }
+    }
+
+
+    size_t lower = getTimeInMinutes(chosen.meetings[0]->getStartTime());
+    size_t upper = getTimeInMinutes(chosen.meetings[chosen.size - 1]->getEndTime());
+
+    cout << lower << " | " << upper << endl;
+    cout << startMinutes << " | " << endMinutes << endl;
+
+    size_t diff1 = 0, diff2 = 0;
+    if (lower > startMinutes || endMinutes > upper) {
+        if (lower > startMinutes) diff1 = lower - startMinutes;
+        if (endMinutes > upper) diff2 = lower - startMinutes;
+
+        if (diff1 >= duration || diff2 >= duration) {
+            return true;
+        }
+    }
+    
+    for (int i = 0; i < chosen.size - 1; ++i) {
+        size_t end = getTimeInMinutes(chosen.meetings[i]->getEndTime());
+        size_t start = getTimeInMinutes(chosen.meetings[i + 1]->getStartTime());
+        cout << start - end << endl;
+        
+        if (start - end >= duration) return true;
+    }
+
+    return false;
+}

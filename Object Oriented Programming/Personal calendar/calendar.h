@@ -41,7 +41,7 @@ public:
     bool changeStartTime(const Meeting&, const char*);
     bool changeEndTime(const Meeting&, const char*);
 
-    char** findDate(const char*, size_t, const char*, const char*);
+   bool isThereTime(const char*, size_t, const char*, const char*);
 };
 
 #endif
