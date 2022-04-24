@@ -283,8 +283,52 @@ void Calendar::printMeetingsByComment(const char* comment) {
     }
 }
 
-bool saveByWorkHours(const char* startTime, const char* endTime) {
-    
+bool Calendar::saveByWorkHours(const char* startDate, const char* endDate) {
+    bool first = true;
+    Calendar result("dd-mm-yyyy.txt");
+
+    for (int i = 0; i < this->size; ++i) {
+        Meeting tempStart(this->meetings[i]->getName(), this->meetings[i]->getComment(), startDate,
+                        this->meetings[i]->getStartTime(), this->meetings[i]->getEndTime());
+
+        Meeting tempEnd(this->meetings[i]->getName(), this->meetings[i]->getComment(), endDate,
+                        this->meetings[i]->getStartTime(), this->meetings[i]->getEndTime());
+
+        if (tempStart < *this->meetings[i] && *this->meetings[i] < tempEnd) {
+            first = false;            
+            result.addMeeting(*this->meetings[i]);
+        }
+    }
+
+    if (first) return false;
+
+    for (int i = 0; i < result.size - 1; ++i) {
+        for (int j = 0; j < result.size - i - 1; ++j) {
+            size_t diff1 = getTimeInMinutes(result.meetings[j]->getEndTime()) - 
+                            getTimeInMinutes(result.meetings[j]->getStartTime());
+
+            size_t diff2 = getTimeInMinutes(result.meetings[j + 1]->getEndTime()) - 
+                            getTimeInMinutes(result.meetings[j + 1]->getStartTime());
+
+            if (diff1 > diff2) {
+                Meeting *temp = result.meetings[j];
+                result.meetings[j] = result.meetings[j + 1];
+                result.meetings[j + 1] = temp;
+            }
+        }
+    }
+
+    char str[5] = ".txt";
+    char filename[15];
+    char copy[11];
+    strcpy(copy, result.getMeetings()[0]->getDate());
+    strcpy(filename, strcat(copy, str));
+    strcpy(result.filename, filename);
+
+    result.save();
+
+
+    return true;
 }
 
 char** findDate(const char*, size_t, const char*, const char*);

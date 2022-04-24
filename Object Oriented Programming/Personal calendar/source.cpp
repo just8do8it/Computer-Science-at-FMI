@@ -29,8 +29,7 @@ int main() {
 
     calendar.save();
 
-    calendar.printMeetingsByName("gathering");
-    calendar.printMeetingsByComment("Annual");
+    calendar.saveByWorkHours("30-04-1995", "16-09-2002");
     
     return 0;
 }

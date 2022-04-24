@@ -139,6 +139,7 @@ Meeting::Meeting(const char *name, const char *comment, const char *date,
     if (dateIsValid(date)) {
         strcpy(this->date, date);
     } else {
+        cout << date << endl;
         throw "Invalid date!";
     }
 
@@ -288,4 +289,25 @@ bool operator<(const Meeting& lhs, const Meeting& rhs) {
     }
 
     return false;
+}
+
+size_t getTimeInMinutes(const char *time) {
+    char hour[3], min[3];
+
+    for (int i = 0; i < 5; i++) {
+        if (i == 2) continue;
+        else if (i < 2) {
+            hour[i] = time[i];
+        }
+        else {
+            min[i - 3] = time[i];
+        }
+    }
+
+    hour[2] = '\0';
+    min[2] = '\0';
+
+    int h = atoi(hour), m = atoi(min);
+
+    return 60 * h + m;
 }

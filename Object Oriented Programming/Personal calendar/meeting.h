@@ -24,8 +24,8 @@ public:
     const char* getName() const;
     const char* getComment() const;
     const char* getDate() const;
-    const char* getStartTime() const;
     const char* getEndTime() const;
+    const char* getStartTime() const;
 
     void setName(const char*);
     void setComment(const char*);
@@ -33,6 +33,8 @@ public:
     void setStartTime(const char*);
     void setEndTime(const char*);
 };
+
+size_t getTimeInMinutes(const char*);
 
 ostream& operator<<(ostream&, const Meeting&);
 

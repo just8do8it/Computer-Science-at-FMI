@@ -1,0 +1,20 @@
+Number of meetings: 3
+
+Name:     name5
+Comment:  Annual
+Date:     15-09-2002
+Start:    17:09
+End:      19:00
+
+Name:     gathering
+Comment:  comment4
+Date:     31-05-1995
+Start:    07:30
+End:      09:45
+
+Name:     name3
+Comment:  comment3
+Date:     15-09-2002
+Start:    20:20
+End:      23:00
+
