@@ -19,7 +19,7 @@ void Meeting::free() {
     delete[] this->name, this->comment;
 }
 
-bool Meeting::dateIsValid(const char* date) const {
+bool Meeting::dateIsValid(const char* date) {
     if (date[2] != '-' || date[5] != '-' || strlen(date) != 10) {
         return false;
     }
@@ -76,7 +76,7 @@ bool Meeting::dateIsValid(const char* date) const {
     return false;
 }
 
-bool Meeting::timeIsValid(const char* start, const char* end) const {
+bool Meeting::timeIsValid(const char* start, const char* end) {
     if (start[2] != ':' || end[2] != ':' ||
         strlen(start) != 5 || strlen(end) != 5) {
         return false;

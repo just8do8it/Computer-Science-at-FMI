@@ -11,8 +11,8 @@ class Meeting {
     void copyFrom(const Meeting&);
     void free();
 
-    bool dateIsValid(const char*) const;
-    bool timeIsValid(const char*, const char*) const;
+    static bool dateIsValid(const char*);
+    static bool timeIsValid(const char*, const char*);
 public:
     Meeting(const char*, const char*, const char*, const char*, const char*);
     Meeting(const Meeting&);
