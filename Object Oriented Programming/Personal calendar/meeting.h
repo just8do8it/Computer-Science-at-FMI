@@ -24,6 +24,12 @@ public:
     const char* getDate() const;
     const char* getStartTime() const;
     const char* getEndTime() const;
+
+    void setName(const char*);
+    void setComment(const char*);
+    void setDate(const char*);
+    void setStartTime(const char*);
+    void setEndTime(const char*);
 };
 
 bool operator==(const Meeting&, const Meeting&);

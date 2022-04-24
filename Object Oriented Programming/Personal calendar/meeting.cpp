@@ -186,6 +186,30 @@ const char* Meeting::getEndTime() const {
     return this->endTime;
 }
 
+void Meeting::setName(const char* name) {
+    delete[] this->name;
+    this->name = new char[strlen(name) + 1];
+    strcpy(this->name, name);
+}
+
+void Meeting::setComment(const char* comment) {
+    delete[] this->comment;
+    this->comment = new char[strlen(comment) + 1];
+    strcpy(this->comment, comment);
+}
+
+void Meeting::setDate(const char* date) {
+    strcpy(this->date, date);
+}
+
+void Meeting::setStartTime(const char* startTime) {
+    strcpy(this->startTime, startTime);
+}
+
+void Meeting::setEndTime(const char* endTime) {
+    strcpy(this->endTime, endTime);
+}
+
 bool operator==(const Meeting& lhs, const Meeting& rhs) {
     bool name = strcmp(lhs.getName(), rhs.getName()) == 0;
     bool comment = strcmp(lhs.getComment(), rhs.getComment()) == 0;

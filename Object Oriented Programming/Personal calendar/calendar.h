@@ -35,8 +35,9 @@ public:
     Meeting** getMeetingsByComment(const char*);
     bool saveByWorkHours(const char*, const char*);
 
-    bool changeName(const Meeting&, const char*);
-    bool changeComment(const Meeting&, const char*);
+    void changeName(const Meeting&, const char*);
+    void changeComment(const Meeting&, const char*);
+    
     bool changeDate(const Meeting&, const char*);
     bool changeStartTime(const Meeting&, const char*);
     bool changeEndTime(const Meeting&, const char*);

@@ -140,6 +140,9 @@ bool Calendar::removeMeeting(const Meeting& meeting) {
             if (i == this->size - 2) {
                 this->meetings[i] = new Meeting(*this->meetings[i + 1]);
                 break;
+            } else if (i == this->size - 1) {
+                this->size--;
+                return true;
             }
             this->meetings[i] = this->meetings[i + 1];
         }
@@ -194,3 +197,84 @@ bool Calendar::printFile() const {
 
     return true;
 }
+
+void Calendar::changeName(const Meeting& meeting, const char* name) {
+    for (int i = 0; i < this->size; ++i) {
+        if (*this->meetings[i] == meeting) {
+            this->meetings[i]->setName(name);
+            break;
+        }
+    }
+}
+
+void Calendar::changeComment(const Meeting& meeting, const char* comment) {
+    for (int i = 0; i < this->size; ++i) {
+        if (*this->meetings[i] == meeting) {
+            this->meetings[i]->setComment(comment);
+            break;
+        }
+    }
+}
+
+bool Calendar::changeDate(const Meeting& meeting, const char* date) {
+    if (!Meeting::dateIsValid(date)) return false;
+
+    for (int i = 0; i < this->size; ++i) {
+        if (*this->meetings[i] == meeting) {
+            this->meetings[i]->setDate(date);
+            Meeting *temp = new Meeting(*meetings[i]);
+            removeMeeting(*temp);
+            addMeeting(*temp);
+            sort();
+            break;
+        }
+    }
+    
+    return true;
+}
+
+bool Calendar::changeStartTime(const Meeting& meeting, const char* startTime) {
+
+    for (int i = 0; i < this->size; ++i) {
+        if (*this->meetings[i] == meeting) {
+            if (!Meeting::timeIsValid(startTime, this->meetings[i]->getEndTime()))
+                return false;
+            
+            this->meetings[i]->setStartTime(startTime);
+            Meeting *temp = new Meeting(*meetings[i]);
+            removeMeeting(*temp);
+            addMeeting(*temp);
+            sort();
+            break;
+        }
+    }
+
+    return true;
+}
+
+bool Calendar::changeEndTime(const Meeting& meeting, const char* endTime) {
+    
+    for (int i = 0; i < this->size; ++i) {
+        if (*this->meetings[i] == meeting) {
+            if (!Meeting::timeIsValid(this->meetings[i]->getStartTime(), endTime))
+                return false;
+            
+            this->meetings[i]->setEndTime(endTime);
+            Meeting *temp = new Meeting(*meetings[i]);
+            removeMeeting(*temp);
+            addMeeting(*temp);
+            sort();
+            break;
+        }
+    }
+
+    return true;
+}
+
+Meeting** getMeetingsByName(const char*);
+
+Meeting** getMeetingsByComment(const char*);
+
+bool saveByWorkHours(const char*, const char*);
+
+char** findDate(const char*, size_t, const char*, const char*);
