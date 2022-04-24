@@ -114,9 +114,6 @@ bool Meeting::timeIsValid(const char* start, const char* end) {
     int h1 = atoi(stHour), m1 = atoi(stMin);
     int h2 = atoi(endHour), m2 = atoi(endMin);
 
-    cout << h1 << ":" << m1 << endl;
-    cout << h2 << ":" << m2 << endl;
-
     if ((h1 >= 0 && h1 <= 23) && (h2 >= 0 && h2 <= 23) &&
         (m1 >= 0 && m1 <= 59) && (m2 >= 0 && m2 <= 59)) {
 
@@ -139,14 +136,12 @@ Meeting::Meeting(const char *name, const char *comment, const char *date,
     strcpy(this->comment, comment);
     
     if (dateIsValid(date)) {
-        cout << "Valid date!" << endl;
         strcpy(this->date, date);
     } else {
         throw "Invalid date!";
     }
 
     if (timeIsValid(startTime, endTime)) {
-        cout << "Valid time!" << endl;
         strcpy(this->startTime, startTime);
         strcpy(this->endTime, endTime);
     } else {
@@ -189,4 +184,67 @@ const char* Meeting::getStartTime() const {
 
 const char* Meeting::getEndTime() const {
     return this->endTime;
+}
+
+bool operator==(const Meeting& lhs, const Meeting& rhs) {
+    bool name = strcmp(lhs.getName(), rhs.getName()) == 0;
+    bool comment = strcmp(lhs.getComment(), rhs.getComment()) == 0;
+    bool date = strcmp(lhs.getDate(), rhs.getDate()) == 0;
+    bool startTime = strcmp(lhs.getStartTime(), rhs.getStartTime()) == 0;
+    bool endTime = strcmp(lhs.getEndTime(), rhs.getEndTime()) == 0;
+
+    return name && comment && date && startTime && endTime;
+}
+
+bool operator!=(const Meeting& lhs, const Meeting& rhs) {
+    return !(lhs == rhs);
+}
+
+bool operator<(const Meeting& lhs, const Meeting& rhs) {
+
+    char lhsDay[3], lhsMonth[3], lhsYear[5];
+    char rhsDay[3], rhsMonth[3], rhsYear[5];
+    
+    for (int i = 0; i < 10; i++) {
+        if (i == 2 || i == 5) continue;
+        else if (i < 2) {
+            lhsDay[i] = lhs.getDate()[i];
+            rhsDay[i] = rhs.getDate()[i];
+        }
+        else if (i < 5) {
+            lhsMonth[i - 3] = lhs.getDate()[i];
+            rhsMonth[i - 3] = rhs.getDate()[i];
+        }
+        else {
+            lhsYear[i - 6] = lhs.getDate()[i];
+            rhsYear[i - 6] = rhs.getDate()[i];
+        }
+    }
+
+    lhsDay[2] = '\0';
+    lhsMonth[2] = '\0';
+    lhsYear[4] = '\0';
+    
+    rhsDay[2] = '\0';
+    rhsMonth[2] = '\0';
+    rhsYear[4] = '\0';
+
+    int lYear = atoi(lhsYear), lMonth = atoi(lhsMonth), lDay = atoi(lhsDay);
+    int rYear = atoi(rhsYear), rMonth = atoi(rhsMonth), rDay = atoi(rhsDay);
+
+    if (lYear == rYear) {
+        if (lMonth == rMonth) {
+            if (lDay == rDay) {
+                return Meeting::timeIsValid(lhs.getEndTime(), rhs.getStartTime());
+            } else if (lDay < rDay) {
+                return true;
+            }
+        } else if (lMonth < rMonth) {
+            return true;
+        }
+    } else if (lYear < rYear)  {
+        return true;   
+    }
+
+    return false;
 }

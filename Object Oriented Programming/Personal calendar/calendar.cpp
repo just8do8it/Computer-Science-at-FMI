@@ -4,7 +4,7 @@
 #include "calendar.h"
 using namespace std;
 
-#define DEFAULT_CAPACITY 8
+#define DEFAULT_CAPACITY 4
 
 void Calendar::copyFrom(const Calendar& other) {
     this->filename = new char[strlen(other.filename) + 1];
@@ -37,10 +37,6 @@ Calendar::Calendar(const char *filename) {
 
     this->capacity = DEFAULT_CAPACITY;
     this->meetings = new Meeting*[this->capacity];
-    
-    for (int i = 0; i < this->capacity; ++i) {
-        this->meetings[i] = nullptr;
-    }
 
     this->size = 0;
 }
@@ -91,3 +87,69 @@ size_t Calendar::getSize() const {
 size_t Calendar::getCapacity() const {
     return this->capacity;
 }
+
+void Calendar::resize(size_t newCapacity) {
+    Calendar copy(*this);
+    copy.capacity = newCapacity;
+    copyFrom(copy);
+}
+
+void Calendar::sort() {
+    if (this->size == 1) return;
+
+    for (int i = this->size - 1; i > 0; --i) {
+        if (*this->meetings[i] < *this->meetings[i - 1]) {
+            Meeting *temp = this->meetings[i];
+            this->meetings[i] = this->meetings[i - 1];
+            this->meetings[i - 1] = temp;
+        }
+    }
+}
+
+bool Calendar::addMeeting(const Meeting& meeting) {
+    if (this->size + 1 == this->capacity) {
+        resize(this->capacity * 2);
+    }
+
+
+    for (int i = 0; i < this->size; ++i) {
+        if (*this->meetings[i] == meeting) {
+            return false;
+        }
+    }
+
+    this->meetings[this->size] = new Meeting(meeting);
+    this->size++;
+    sort();
+    return true;
+}
+
+bool Calendar::removeMeeting(const Meeting& meeting) {
+    if (this->size - 1 == this->capacity / 3) {
+        resize(this->capacity / 2);
+    }
+
+    bool found = false;
+
+    for (int i = 0; i < this->size; ++i) {
+        if (*this->meetings[i] == meeting) {
+            found = true;
+            delete this->meetings[i];
+        }
+        if (found) {
+            this->meetings[i] = this->meetings[i + 1];
+            if (i == this->size - 2) {
+                break;
+            }
+        }
+    }
+
+    if (found) {
+        delete this->meetings[this->size];
+        this->size--;
+        return true;
+    }
+    
+    return false;
+}
+

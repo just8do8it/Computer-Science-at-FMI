@@ -11,9 +11,9 @@ class Meeting {
     void copyFrom(const Meeting&);
     void free();
 
+public:
     static bool dateIsValid(const char*);
     static bool timeIsValid(const char*, const char*);
-public:
     Meeting(const char*, const char*, const char*, const char*, const char*);
     Meeting(const Meeting&);
     Meeting& operator=(const Meeting&);
@@ -25,5 +25,10 @@ public:
     const char* getStartTime() const;
     const char* getEndTime() const;
 };
+
+bool operator==(const Meeting&, const Meeting&);
+bool operator!=(const Meeting&, const Meeting&);
+
+bool operator<(const Meeting&, const Meeting&);
 
 #endif

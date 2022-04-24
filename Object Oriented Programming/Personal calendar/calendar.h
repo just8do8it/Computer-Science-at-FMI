@@ -24,6 +24,7 @@ public:
     size_t getSize() const;
     size_t getCapacity() const;
 
+    void resize(size_t);
     void sort();
     bool addMeeting(const Meeting&);
     bool removeMeeting(const Meeting&);
