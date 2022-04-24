@@ -176,22 +176,17 @@ bool Calendar::save() {
     return true;
 }
 
-bool Calendar::printFile() const {
-    ifstream file(this->filename);
 
-    if (file.fail()) {
-        return false;
+bool Calendar::printForDay(const char* date) {
+    bool exists = false;
+    for (int i = 0; i < this->size; ++i) {
+        if (strcmp(this->meetings[i]->getDate(), date) == 0) {
+            if (!exists) exists = true;
+            cout << *this->meetings[i] << endl;
+        }
     }
 
-    while (!file.eof()) {
-        char buff[1024];
-        file.getline(buff, 1024);
-        cout << buff << endl;
-    }
-
-    file.close();
-
-    return true;
+    return exists;
 }
 
 void Calendar::changeName(const Meeting& meeting, const char* name) {
