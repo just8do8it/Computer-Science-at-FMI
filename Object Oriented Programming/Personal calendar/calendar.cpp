@@ -125,7 +125,8 @@ bool Calendar::addMeeting(const Meeting& meeting) {
 }
 
 bool Calendar::removeMeeting(const Meeting& meeting) {
-    if (this->size - 1 == this->capacity / 3) {
+        cout << "here" << endl;
+    if (this->size - 1 <= this->capacity / 3) {
         resize(this->capacity / 2);
     }
 
@@ -137,15 +138,19 @@ bool Calendar::removeMeeting(const Meeting& meeting) {
             delete this->meetings[i];
         }
         if (found) {
-            this->meetings[i] = this->meetings[i + 1];
             if (i == this->size - 2) {
+                this->meetings[i] = new Meeting(*this->meetings[i + 1]);
                 break;
             }
+            this->meetings[i] = this->meetings[i + 1];
         }
     }
 
     if (found) {
-        delete this->meetings[this->size];
+        // delete this->meetings[this->size - 2];
+        // this->meetings[this->size - 2] = new Meeting(*this->meetings[this->size - 1]);
+        delete this->meetings[this->size - 1];
+        
         this->size--;
         return true;
     }
