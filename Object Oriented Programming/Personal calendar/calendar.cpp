@@ -125,7 +125,6 @@ bool Calendar::addMeeting(const Meeting& meeting) {
 }
 
 bool Calendar::removeMeeting(const Meeting& meeting) {
-        cout << "here" << endl;
     if (this->size - 1 <= this->capacity / 3) {
         resize(this->capacity / 2);
     }
@@ -147,10 +146,7 @@ bool Calendar::removeMeeting(const Meeting& meeting) {
     }
 
     if (found) {
-        // delete this->meetings[this->size - 2];
-        // this->meetings[this->size - 2] = new Meeting(*this->meetings[this->size - 1]);
         delete this->meetings[this->size - 1];
-        
         this->size--;
         return true;
     }
@@ -158,3 +154,43 @@ bool Calendar::removeMeeting(const Meeting& meeting) {
     return false;
 }
 
+bool Calendar::save() {
+    ofstream file(this->filename);
+
+    if (file.fail()) {
+        return false;
+    }
+
+    file << this->size << endl << endl;
+
+    for (int i = 0; i < this->size; ++i) {
+        file << this->meetings[i]->getName() << endl;
+        file << this->meetings[i]->getComment() << endl;
+        file << this->meetings[i]->getDate() << endl;
+        file << this->meetings[i]->getStartTime() << endl;
+        file << this->meetings[i]->getEndTime() << endl;
+        file << endl;
+    }
+
+    file.close();
+
+    return true;
+}
+
+bool Calendar::printFile() const {
+    ifstream file(this->filename);
+
+    if (file.fail()) {
+        return false;
+    }
+
+    while (!file.eof()) {
+        char buff[1024];
+        file.getline(buff, 1024);
+        cout << buff << endl;
+    }
+
+    file.close();
+
+    return true;
+}

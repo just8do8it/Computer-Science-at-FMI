@@ -28,8 +28,9 @@ public:
     void sort();
     bool addMeeting(const Meeting&);
     bool removeMeeting(const Meeting&);
-    bool saveCalendar();
-    bool deleteCalendar();
+    bool save();
+    bool printFile() const;
+    // bool deleteCalendar();
     Meeting** getMeetingsByName(const char*);
     Meeting** getMeetingsByComment(const char*);
     bool saveByWorkHours(const char*, const char*);
