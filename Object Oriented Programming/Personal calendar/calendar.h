@@ -30,9 +30,8 @@ public:
     bool removeMeeting(const Meeting&);
     bool save();
     bool printFile() const;
-    // bool deleteCalendar();
-    Meeting** getMeetingsByName(const char*);
-    Meeting** getMeetingsByComment(const char*);
+    void printMeetingsByName(const char*);
+    void printMeetingsByComment(const char*);
     bool saveByWorkHours(const char*, const char*);
 
     void changeName(const Meeting&, const char*);

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
+#include <iomanip>
 #include "calendar.h"
 using namespace std;
 
@@ -164,15 +165,10 @@ bool Calendar::save() {
         return false;
     }
 
-    file << this->size << endl << endl;
+    file << "Number of meetings: " << this->size << endl << endl;
 
     for (int i = 0; i < this->size; ++i) {
-        file << this->meetings[i]->getName() << endl;
-        file << this->meetings[i]->getComment() << endl;
-        file << this->meetings[i]->getDate() << endl;
-        file << this->meetings[i]->getStartTime() << endl;
-        file << this->meetings[i]->getEndTime() << endl;
-        file << endl;
+        file << *this->meetings[i] << endl;
     }
 
     file.close();
@@ -271,10 +267,24 @@ bool Calendar::changeEndTime(const Meeting& meeting, const char* endTime) {
     return true;
 }
 
-Meeting** getMeetingsByName(const char*);
+void Calendar::printMeetingsByName(const char* name) {
+    for (int i = 0; i < this->size; ++i) {
+        if (strstr(this->meetings[i]->getName(), name)) {
+            cout << *this->meetings[i] << endl;
+        }
+    }
+}
 
-Meeting** getMeetingsByComment(const char*);
+void Calendar::printMeetingsByComment(const char* comment) {
+    for (int i = 0; i < this->size; ++i) {
+        if (strstr(this->meetings[i]->getComment(), comment)) {
+            cout << *this->meetings[i] << endl;
+        }
+    }
+}
 
-bool saveByWorkHours(const char*, const char*);
+bool saveByWorkHours(const char* startTime, const char* endTime) {
+    
+}
 
 char** findDate(const char*, size_t, const char*, const char*);

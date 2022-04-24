@@ -1,26 +1,32 @@
-4
+Number of meetings: 5
 
-name2
-comment2
-08-12-1100
-15:59
-16:05
+Name:     family gathering
+Comment:  Pretty much Annual
+Date:     08-12-1100
+Start:    15:59
+End:      16:05
 
-name1
-comment1
-28-02-1900
-19:15
-19:26
+Name:     name1
+Comment:  Annual event
+Date:     28-02-1900
+Start:    19:15
+End:      19:26
 
-name4
-comment4
-31-05-1995
-07:30
-09:45
+Name:     gathering
+Comment:  comment4
+Date:     31-05-1995
+Start:    07:30
+End:      09:45
 
-name3
-comment3
-15-09-2002
-22:30
-22:31
+Name:     name5
+Comment:  Annual
+Date:     15-09-2002
+Start:    17:09
+End:      19:00
+
+Name:     name3
+Comment:  comment3
+Date:     15-09-2002
+Start:    20:20
+End:      23:00
 

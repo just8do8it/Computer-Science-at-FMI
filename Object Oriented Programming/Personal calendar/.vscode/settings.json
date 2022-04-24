@@ -5,6 +5,8 @@
         "type_traits": "cpp",
         "typeinfo": "cpp",
         "iostream": "cpp",
-        "new": "cpp"
+        "new": "cpp",
+        "ostream": "cpp",
+        "iomanip": "cpp"
     }
 }

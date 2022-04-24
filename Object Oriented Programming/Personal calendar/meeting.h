@@ -1,5 +1,7 @@
 #ifndef MEETING_H
 #define MEETING_H
+#include <iostream>
+using namespace std;
 
 class Meeting {
     char *name;
@@ -31,6 +33,8 @@ public:
     void setStartTime(const char*);
     void setEndTime(const char*);
 };
+
+ostream& operator<<(ostream&, const Meeting&);
 
 bool operator==(const Meeting&, const Meeting&);
 bool operator!=(const Meeting&, const Meeting&);

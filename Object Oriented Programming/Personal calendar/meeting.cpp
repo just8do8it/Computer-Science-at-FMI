@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
+#include <iomanip>
 #include "meeting.h"
 
 using namespace std;
@@ -208,6 +209,22 @@ void Meeting::setStartTime(const char* startTime) {
 
 void Meeting::setEndTime(const char* endTime) {
     strcpy(this->endTime, endTime);
+}
+
+ostream& operator<<(ostream& out, const Meeting& meeting) {
+    out << left << setw(10);
+    out << "Name: " << meeting.getName() << endl;
+    out << setw(10);
+    out << "Comment: " << meeting.getComment() << endl;
+    out << setw(10);
+    out << "Date: " << meeting.getDate() << endl;
+    out << setw(10);
+    out << "Start: " << meeting.getStartTime() << endl;
+    out << setw(10);
+    out << "End: " << meeting.getEndTime() << endl;
+    out << setw(10);
+
+    return out;
 }
 
 bool operator==(const Meeting& lhs, const Meeting& rhs) {
