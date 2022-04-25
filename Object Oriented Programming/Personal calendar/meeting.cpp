@@ -189,7 +189,7 @@ const char* Meeting::getEndTime() const {
 }
 
 void Meeting::setName(const char* name) {
-    delete[] this->name;
+    // delete[] this->name;
     this->name = new char[strlen(name) + 1];
     strcpy(this->name, name);
 }
@@ -213,19 +213,36 @@ void Meeting::setEndTime(const char* endTime) {
 }
 
 ostream& operator<<(ostream& out, const Meeting& meeting) {
-    out << left << setw(10);
-    out << "Name: " << meeting.getName() << endl;
-    out << setw(10);
-    out << "Comment: " << meeting.getComment() << endl;
-    out << setw(10);
-    out << "Date: " << meeting.getDate() << endl;
-    out << setw(10);
-    out << "Start: " << meeting.getStartTime() << endl;
-    out << setw(10);
-    out << "End: " << meeting.getEndTime() << endl;
-    out << setw(10);
+    out << meeting.getName() << endl;
+    out << meeting.getComment() << endl;
+    out << meeting.getDate() << endl;
+    out << meeting.getStartTime() << endl;
+    out << meeting.getEndTime() << endl;
 
     return out;
+}
+
+istream& operator>>(istream& in, Meeting*& meeting) {
+    char nameBuff[1024], commentBuff[1024], date[1024], startTime[1024], endTime[1024];
+    in.getline(nameBuff, 1024);
+    char *name = new char[strlen(nameBuff) + 1];
+    strcpy(name, nameBuff);
+
+    in.getline(commentBuff, 1024);
+    char *comment = new char[strlen(commentBuff) + 1];
+    strcpy(comment, commentBuff);
+
+    in.getline(date, 1024);
+    in.getline(startTime, 1024);
+    in.getline(endTime, 1024);
+    
+    cout << name << endl;
+    cout << comment << endl;
+    cout << date << endl;
+
+    meeting = new Meeting(name, comment, date, startTime, endTime);
+    
+    return in;
 }
 
 bool operator==(const Meeting& lhs, const Meeting& rhs) {

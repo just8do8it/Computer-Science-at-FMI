@@ -33,13 +33,36 @@ void Calendar::free() {
 }
 
 Calendar::Calendar(const char *filename) {
-    this->filename = new char[strlen(filename) + 1];
-    strcpy(this->filename, filename);
+    ifstream file(filename);
+    size_t start = file.tellg();
+    file.seekg(0, ios::end);
+    size_t end = file.tellg();
+    file.seekg(0, ios::beg);
 
-    this->capacity = DEFAULT_CAPACITY;
-    this->meetings = new Meeting*[this->capacity];
+    if (end - start == 0) {
+        this->filename = new char[strlen(filename) + 1];
+        strcpy(this->filename, filename);
 
-    this->size = 0;
+        this->capacity = DEFAULT_CAPACITY;
+        this->meetings = new Meeting*[this->capacity];
+
+        this->size = 0;
+    } else {
+        size_t size;
+        file >> size;
+        file.ignore(2);
+
+        this->filename = new char[strlen(filename) + 1];
+        strcpy(this->filename, filename);
+
+        this->capacity = size * 2;
+        this->meetings = new Meeting*[this->capacity];
+        for (int i = 0; i < size; ++i) {
+            file >> this->meetings[i];
+            file.ignore();
+            this->size++;
+        }
+    }
 }
 
 Calendar::Calendar(const char* filename, Meeting** meetings, size_t size, size_t capacity) {
@@ -165,11 +188,13 @@ bool Calendar::save() {
         return false;
     }
 
-    file << "Number of meetings: " << this->size << endl << endl;
+    file << this->size << endl << endl;
 
     for (int i = 0; i < this->size; ++i) {
         file << *this->meetings[i] << endl;
     }
+
+    file << endl;
 
     file.close();
 

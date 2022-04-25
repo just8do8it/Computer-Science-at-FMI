@@ -32,6 +32,7 @@ public:
     void setDate(const char*);
     void setStartTime(const char*);
     void setEndTime(const char*);
+    friend istream& operator>>(istream&, Meeting*&);
 };
 
 size_t getTimeInMinutes(const char*);
