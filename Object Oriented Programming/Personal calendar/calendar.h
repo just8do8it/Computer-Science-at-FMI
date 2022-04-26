@@ -31,8 +31,8 @@ public:
     bool save();
     
     bool printForDay(const char*);
-    void printMeetingsByName(const char*);
-    void printMeetingsByComment(const char*);
+    bool printMeetingsByName(const char*);
+    bool printMeetingsByComment(const char*);
     bool saveByWorkHours(const char*, const char*);
 
     void changeName(const Meeting&, const char*);

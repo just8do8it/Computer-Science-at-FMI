@@ -4,6 +4,8 @@
 #include <iomanip>
 #include "meeting.h"
 
+#define DEFAULT_CAPACITY 1024
+
 using namespace std;
 
 void Meeting::copyFrom(const Meeting& other) {
@@ -139,7 +141,6 @@ Meeting::Meeting(const char *name, const char *comment, const char *date,
     if (dateIsValid(date)) {
         strcpy(this->date, date);
     } else {
-        cout << date << endl;
         throw "Invalid date!";
     }
 
@@ -223,18 +224,18 @@ ostream& operator<<(ostream& out, const Meeting& meeting) {
 }
 
 istream& operator>>(istream& in, Meeting*& meeting) {
-    char nameBuff[1024], commentBuff[1024], date[1024], startTime[1024], endTime[1024];
-    in.getline(nameBuff, 1024);
+    char nameBuff[DEFAULT_CAPACITY], commentBuff[DEFAULT_CAPACITY], date[DEFAULT_CAPACITY], startTime[DEFAULT_CAPACITY], endTime[DEFAULT_CAPACITY];
+    in.getline(nameBuff, DEFAULT_CAPACITY);
     char *name = new char[strlen(nameBuff) + 1];
     strcpy(name, nameBuff);
 
-    in.getline(commentBuff, 1024);
+    in.getline(commentBuff, DEFAULT_CAPACITY);
     char *comment = new char[strlen(commentBuff) + 1];
     strcpy(comment, commentBuff);
 
-    in.getline(date, 1024);
-    in.getline(startTime, 1024);
-    in.getline(endTime, 1024);
+    in.getline(date, DEFAULT_CAPACITY);
+    in.getline(startTime, DEFAULT_CAPACITY);
+    in.getline(endTime, DEFAULT_CAPACITY);
 
     meeting = new Meeting(name, comment, date, startTime, endTime);
     
