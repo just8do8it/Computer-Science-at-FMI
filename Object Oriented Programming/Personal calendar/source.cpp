@@ -39,7 +39,6 @@ Meeting& initMeeting() {
 int main() {
     char options1[] = "Choose a number for one of the following:\n> add meeting (1)\n> remove meeting (2)\n> daily meetings (3)\n";
     char options2[] = "> edit meeting (4)\n> find a meeting (5)\n> save by duration criteria (6)\n> find free time (7)\n> exit (8)\n";
-    char *options = strcat(options1, options2);
     char filename[1024];
 
     cout << "Calendar filename: ";
@@ -56,7 +55,7 @@ int main() {
         }
 
         wait = false;
-        cout << options << endl;
+        cout << options1 << options2 << endl;
         cout << "> ";
 
         cin >> choice;
@@ -96,47 +95,71 @@ int main() {
                 char changeOptions2[] = "> date (3)\n> start time (4)\n> end time (5)\n";
 
                 size_t numOfChange;
-                char *changeOptions = strcat(changeOptions1, changeOptions2);
-                cout << changeOptions << endl;
+                cout << changeOptions1 << changeOptions2 << endl;
                 cin >> numOfChange;
+                cin.ignore();
 
-            //     if (numOfChange == 1) {
-            //         char nameBuff[1024];
-            //         cout << "New name: ";
-            //         cin.getline(nameBuff, 1024);
-            //         char *name = new char[strlen(nameBuff) + 1];
-            //         strcpy(name, nameBuff);
+                if (numOfChange == 1) {
+                    char nameBuff[1024];
+                    cout << "New name: ";
+                    cin.getline(nameBuff, 1024);
+                    char *name = new char[strlen(nameBuff) + 1];
+                    strcpy(name, nameBuff);
 
-            //         calendar.changeName(meeting, name);
-            //     }
-            //     else if (numOfChange == 2) {
+                    calendar.changeName(meeting, name);
+                    calendar.save();
+                }
+                else if (numOfChange == 2) {
+                    char commentBuff[1024];
+                    cout << "New comment: ";
+                    cin.getline(commentBuff, 1024);
+                    char *comment = new char[strlen(commentBuff) + 1];
+                    strcpy(comment, commentBuff);
 
-            //     }
-            //     else if (numOfChange == 3) {
-            //         char dateBuff[11];
-            //         cout << "New date: ";
-            //         cin.getline(dateBuff, 11);
-            //         char *date = new char[11];
-            //         strcpy(date, dateBuff);
+                    calendar.changeComment(meeting, comment);
+                    calendar.save();
+                }
+                else if (numOfChange == 3) {
+                    char dateBuff[11];
+                    cout << "New date: ";
+                    cin.getline(dateBuff, 11);
+                    char *date = new char[11];
+                    strcpy(date, dateBuff);
 
-            //         calendar.changeDate(meeting, date);
-            //     }
-            //     else if (numOfChange == 4) {
-                    
-            //     }
-            //     else if (numOfChange == 5) {
-                    
-            //     }
-            // }
-            // else if (choice == 5) {
+                    calendar.changeDate(meeting, date);
+                    calendar.save();
+
+                }
+                else if (numOfChange == 4) {
+                    char startTimeBuff[1024];
+                    cout << "New startTime: ";
+                    cin.getline(startTimeBuff, 1024);
+                    char *startTime = new char[strlen(startTimeBuff) + 1];
+                    strcpy(startTime, startTimeBuff);
+
+                    calendar.changeStartTime(meeting, startTime);
+                    calendar.save();
+                }
+                else if (numOfChange == 5) {
+                    char endTimeBuff[1024];
+                    cout << "New endTime: ";
+                    cin.getline(endTimeBuff, 1024);
+                    char *endTime = new char[strlen(endTimeBuff) + 1];
+                    strcpy(endTime, endTimeBuff);
+
+                    calendar.changeStartTime(meeting, endTime);
+                    calendar.save();
+                }
+            }
+            else if (choice == 5) {
                 
-            // }
-            // else if (choice == 6) {
+            }
+            else if (choice == 6) {
                 
-            // }
-            // else if (choice == 7) {
+            }
+            else if (choice == 7) {
                 
-            // }
+            }
 
         } catch (const char *e) {
             cout << "Invalid operation: " << e << endl << endl;
