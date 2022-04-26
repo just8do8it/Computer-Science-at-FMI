@@ -55,12 +55,12 @@ Calendar::Calendar(const char *filename) {
         this->filename = new char[strlen(filename) + 1];
         strcpy(this->filename, filename);
 
-        this->capacity = size * 2;
+        this->size = size;
+        this->capacity = this->size * 2;
         this->meetings = new Meeting*[this->capacity];
         for (int i = 0; i < size; ++i) {
             file >> this->meetings[i];
             file.ignore();
-            this->size++;
         }
     }
 }
@@ -135,6 +135,7 @@ bool Calendar::addMeeting(const Meeting& meeting) {
         resize(this->capacity * 2);
     }
 
+    cout << this->size << endl;
 
     for (int i = 0; i < this->size; ++i) {
         if (*this->meetings[i] == meeting) {

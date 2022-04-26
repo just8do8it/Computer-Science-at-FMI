@@ -235,10 +235,6 @@ istream& operator>>(istream& in, Meeting*& meeting) {
     in.getline(date, 1024);
     in.getline(startTime, 1024);
     in.getline(endTime, 1024);
-    
-    cout << name << endl;
-    cout << comment << endl;
-    cout << date << endl;
 
     meeting = new Meeting(name, comment, date, startTime, endTime);
     
@@ -246,6 +242,7 @@ istream& operator>>(istream& in, Meeting*& meeting) {
 }
 
 bool operator==(const Meeting& lhs, const Meeting& rhs) {
+    cout << "problem" << endl;
     bool name = strcmp(lhs.getName(), rhs.getName()) == 0;
     bool comment = strcmp(lhs.getComment(), rhs.getComment()) == 0;
     bool date = strcmp(lhs.getDate(), rhs.getDate()) == 0;
