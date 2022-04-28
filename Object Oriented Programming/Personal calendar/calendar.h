@@ -26,14 +26,14 @@ public:
 
     void resize(size_t);
     void sort();
-    bool addMeeting(const Meeting&);
-    bool removeMeeting(const Meeting&);
+    void addMeeting(const Meeting&);
+    void removeMeeting(const Meeting&);
     bool save();
     
-    bool printForDay(const char*);
-    bool printMeetingsByName(const char*);
-    bool printMeetingsByComment(const char*);
-    bool saveByWorkHours(const char*, const char*);
+    void printForDay(const char*);
+    void printMeetingsByName(const char*);
+    void printMeetingsByComment(const char*);
+    void saveByWorkHours(const char*, const char*);
 
     void changeName(const Meeting&, const char*);
     void changeComment(const Meeting&, const char*);
@@ -42,7 +42,7 @@ public:
     bool changeStartTime(const Meeting&, const char*);
     bool changeEndTime(const Meeting&, const char*);
 
-   bool isThereTime(const char*, size_t, const char*, const char*);
+    bool isThereTime(const char*, size_t, const char*, const char*);
 };
 
 #endif

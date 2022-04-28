@@ -3,6 +3,9 @@
 #include <iostream>
 using namespace std;
 
+bool dateIsValid(const char*);
+bool timeIsValid(const char*, const char*);
+
 class Meeting {
     char *name;
     char *comment;
@@ -14,8 +17,6 @@ class Meeting {
     void free();
 
 public:
-    static bool dateIsValid(const char*);
-    static bool timeIsValid(const char*, const char*);
     Meeting(const char*, const char*, const char*, const char*, const char*);
     Meeting(const Meeting&);
     Meeting& operator=(const Meeting&);

@@ -130,24 +130,37 @@ void Calendar::sort() {
     }
 }
 
-bool Calendar::addMeeting(const Meeting& meeting) {
+void Calendar::addMeeting(const Meeting& meeting) {
     if (this->size + 1 == this->capacity) {
         resize(this->capacity * 2);
     }
 
     for (int i = 0; i < this->size; ++i) {
         if (*this->meetings[i] == meeting) {
-            return false;
+            throw "Meeting already in calendar!";
+        }
+    }
+
+    for (int i = 0; i < this->size; ++i) {
+        if (strcmp(this->meetings[i]->getDate(), meeting.getDate()) == 0) {
+            size_t currStartTime = getTimeInMinutes(this->meetings[i]->getStartTime());
+            size_t currEndTime = getTimeInMinutes(this->meetings[i]->getEndTime());
+            size_t newStartTime = getTimeInMinutes(meeting.getStartTime());
+            size_t newEndTime = getTimeInMinutes(meeting.getEndTime());
+
+            if ((newStartTime > currStartTime && newStartTime < currEndTime) || 
+                (newEndTime > currStartTime && newEndTime < currEndTime)) {
+                    throw "Meeting overlapping with other meetings!";
+                }
         }
     }
 
     this->meetings[this->size] = new Meeting(meeting);
     this->size++;
     sort();
-    return true;
 }
 
-bool Calendar::removeMeeting(const Meeting& meeting) {
+void Calendar::removeMeeting(const Meeting& meeting) {
     if (this->size - 1 <= this->capacity / 3) {
         resize(this->capacity / 2);
     }
@@ -165,7 +178,7 @@ bool Calendar::removeMeeting(const Meeting& meeting) {
                 break;
             } else if (i == this->size - 1) {
                 this->size--;
-                return true;
+                return;
             }
             this->meetings[i] = this->meetings[i + 1];
         }
@@ -174,10 +187,9 @@ bool Calendar::removeMeeting(const Meeting& meeting) {
     if (found) {
         delete this->meetings[this->size - 1];
         this->size--;
-        return true;
+    } else {
+        throw "Such meeting doesn't exist!";
     }
-    
-    return false;
 }
 
 bool Calendar::save() {
@@ -201,7 +213,7 @@ bool Calendar::save() {
 }
 
 
-bool Calendar::printForDay(const char* date) {
+void Calendar::printForDay(const char* date) {
     bool exists = false;
     cout << endl;
     for (int i = 0; i < this->size; ++i) {
@@ -213,7 +225,9 @@ bool Calendar::printForDay(const char* date) {
 
     cout << endl;
 
-    return exists;
+    if (!exists) {
+        throw "No meetings for that day!";
+    }
 }
 
 void Calendar::changeName(const Meeting& meeting, const char* name) {
@@ -235,7 +249,7 @@ void Calendar::changeComment(const Meeting& meeting, const char* comment) {
 }
 
 bool Calendar::changeDate(const Meeting& meeting, const char* date) {
-    if (!Meeting::dateIsValid(date)) return false;
+    if (!dateIsValid(date)) return false;
 
     for (int i = 0; i < this->size; ++i) {
         if (*this->meetings[i] == meeting) {
@@ -255,7 +269,7 @@ bool Calendar::changeStartTime(const Meeting& meeting, const char* startTime) {
 
     for (int i = 0; i < this->size; ++i) {
         if (*this->meetings[i] == meeting) {
-            if (!Meeting::timeIsValid(startTime, this->meetings[i]->getEndTime()))
+            if (!timeIsValid(startTime, this->meetings[i]->getEndTime()))
                 return false;
             
             this->meetings[i]->setStartTime(startTime);
@@ -274,7 +288,7 @@ bool Calendar::changeEndTime(const Meeting& meeting, const char* endTime) {
     
     for (int i = 0; i < this->size; ++i) {
         if (*this->meetings[i] == meeting) {
-            if (!Meeting::timeIsValid(this->meetings[i]->getStartTime(), endTime))
+            if (!timeIsValid(this->meetings[i]->getStartTime(), endTime))
                 return false;
             
             this->meetings[i]->setEndTime(endTime);
@@ -289,7 +303,7 @@ bool Calendar::changeEndTime(const Meeting& meeting, const char* endTime) {
     return true;
 }
 
-bool Calendar::printMeetingsByName(const char* str) {
+void Calendar::printMeetingsByName(const char* str) {
     bool found = false;
     cout << endl;
     for (int i = 0; i < this->size; ++i) {
@@ -300,10 +314,12 @@ bool Calendar::printMeetingsByName(const char* str) {
     }
     cout << endl;
 
-    return found;
+    if (!found) {
+        throw "No matching meetings!";
+    }
 }
 
-bool Calendar::printMeetingsByComment(const char* str) {
+void Calendar::printMeetingsByComment(const char* str) {
     bool found = false;
     cout << endl;
     for (int i = 0; i < this->size; ++i) {
@@ -315,12 +331,14 @@ bool Calendar::printMeetingsByComment(const char* str) {
 
     cout << endl;
 
-    return found;
+    if (!found) {
+        throw "No matching meetings!";
+    }
 }
 
-bool Calendar::saveByWorkHours(const char* startDate, const char* endDate) {
+void Calendar::saveByWorkHours(const char* startDate, const char* endDate) {
     bool first = true;
-    Calendar result("dd-mm-yyyy.txt");
+    Calendar result("yyyy-mm-dd.txt");
 
     for (int i = 0; i < this->size; ++i) {
         Meeting tempStart(this->meetings[i]->getName(), this->meetings[i]->getComment(), startDate,
@@ -335,7 +353,7 @@ bool Calendar::saveByWorkHours(const char* startDate, const char* endDate) {
         }
     }
 
-    if (first) return false;
+    if (first) throw "No meetings in that period!";
 
     for (int i = 0; i < result.size - 1; ++i) {
         for (int j = 0; j < result.size - i - 1; ++j) {
@@ -355,14 +373,26 @@ bool Calendar::saveByWorkHours(const char* startDate, const char* endDate) {
 
     char str[5] = ".txt";
     char filename[15];
-    char copy[11];
+    char copy[11], newDate[11];
     strcpy(copy, result.getMeetings()[0]->getDate());
-    strcpy(filename, strcat(copy, str));
+
+    for (int i = 0; i < 10; ++i) {
+        if (i < 4) {
+            newDate[i] = copy[i + 6];
+        } 
+        else if (i < 8) {
+            newDate[i] = copy[i - 2];
+        }
+        else {
+            newDate[i] = copy[i - 8];
+        }
+    }
+    newDate[10] = '\0';
+
+    strcpy(filename, strcat(newDate, str));
     strcpy(result.filename, filename);
 
     result.save();
-
-    return true;
 }
 
 bool Calendar::isThereTime(const char* date, size_t duration, const char* startTime, const char* endTime) {

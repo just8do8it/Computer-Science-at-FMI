@@ -81,14 +81,12 @@ int main() {
 
                 char *dynDate = new char[strlen(date) + 1];
                 strcpy(dynDate, date);
-                if (!Meeting::dateIsValid(dynDate)) {
+                if (!dateIsValid(dynDate)) {
                     throw "Invalid date!";
                 }
 
                 system("clear");
-                if (!calendar.printForDay(dynDate)) {
-                    throw "No meetings for that day!";
-                }
+                calendar.printForDay(dynDate);
                 wait = true;
             }
             else if (choice == 4) {
@@ -128,7 +126,7 @@ int main() {
                     char *date = new char[11];
                     strcpy(date, dateBuff);
 
-                    if (!Meeting::dateIsValid(date)) {
+                    if (!dateIsValid(date)) {
                         throw "Invalid date!";
                     }
 
@@ -143,7 +141,7 @@ int main() {
                     char *startTime = new char[strlen(startTimeBuff) + 1];
                     strcpy(startTime, startTimeBuff);
 
-                    if (!Meeting::timeIsValid(startTime, meeting.getEndTime())) {
+                    if (!timeIsValid(startTime, meeting.getEndTime())) {
                         throw "Invalid time!";
                     }
 
@@ -157,7 +155,7 @@ int main() {
                     char *endTime = new char[strlen(endTimeBuff) + 1];
                     strcpy(endTime, endTimeBuff);
 
-                    if (!Meeting::timeIsValid(meeting.getStartTime(), endTime)) {
+                    if (!timeIsValid(meeting.getStartTime(), endTime)) {
                         throw "Invalid time!";
                     }
 
@@ -180,14 +178,10 @@ int main() {
                 strcpy(str, strBuff);
 
                 if (num == 1) {
-                    if (!calendar.printMeetingsByName(str)) {
-                        throw "No matching meetings!";
-                    }
+                    calendar.printMeetingsByName(str);
                 }
                 else if (num == 2) {
-                    if (!calendar.printMeetingsByComment(str)) {
-                        throw "No matching meetings!";
-                    }
+                    calendar.printMeetingsByComment(str);
                 }
 
                 wait = true;
@@ -204,13 +198,11 @@ int main() {
                 char *endDate = new char[strlen(endBuff) + 1];
                 strcpy(endDate, endBuff);
 
-                if (!Meeting::dateIsValid(startDate) || !Meeting::dateIsValid(endDate)) {
+                if (!dateIsValid(startDate) || !dateIsValid(endDate)) {
                     throw "Invalid date!";
                 }
 
-                if (!calendar.saveByWorkHours(startDate, endDate)) {
-                    throw "No meetings in that period!";
-                }
+                calendar.saveByWorkHours(startDate, endDate);
             }
             else if (choice == 7) {
                 char dateBuff[DEFAULT_CAPACITY];
@@ -233,7 +225,7 @@ int main() {
                 cout << "Time range end: ";
                 cin.getline(rangeEnd, DEFAULT_CAPACITY);
 
-                if (!Meeting::timeIsValid(rangeStart, rangeEnd)) {
+                if (!timeIsValid(rangeStart, rangeEnd)) {
                     throw "Invalid time!";
                 }
 
