@@ -36,6 +36,7 @@ public:
     friend istream& operator>>(istream&, Meeting*&);
 };
 
+size_t getDateInDays(const char*);
 size_t getTimeInMinutes(const char*);
 
 ostream& operator<<(ostream&, const Meeting&);

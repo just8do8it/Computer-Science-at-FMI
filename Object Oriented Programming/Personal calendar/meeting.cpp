@@ -199,6 +199,23 @@ bool operator<(const Meeting& lhs, const Meeting& rhs) {
     return false;
 }
 
+size_t getDateInDays(const char* date) {
+    char day[3], month[3], year[5];
+    
+    for (int i = 0; i < 10; i++) {
+        if (i == 2 || i == 5) continue;
+        else if (i < 2) day[i] = date[i];
+        else if (i < 5) month[i - 3] = date[i];
+        else year[i - 6] = date[i];
+    }
+
+    day[2] = month[2] = year[4] = '\0';
+
+    int d = atoi(day), m = atoi(month), y = atoi(year);
+    
+    return 365*y + 31*m + d;
+}
+
 size_t getTimeInMinutes(const char *time) {
     char hour[3], min[3];
 

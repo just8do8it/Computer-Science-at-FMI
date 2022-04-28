@@ -395,48 +395,74 @@ void Calendar::saveByWorkHours(const char* startDate, const char* endDate) {
     result.save();
 }
 
-bool Calendar::isThereTime(const char* date, size_t duration, const char* startTime, const char* endTime) {
-    bool found = false;
-    Calendar chosen("random.txt");
+bool Calendar::isThereTime(const char* startDate, const char* endDate, size_t duration, const char* startTime, const char* endTime) {    bool found = false;
+    size_t startDateDays = getDateInDays(startDate);
+    size_t endDateDays = getDateInDays(endDate);
     size_t startMinutes = getTimeInMinutes(startTime);
     size_t endMinutes = getTimeInMinutes(endTime);
 
-    for (int i = 0; i < this->size; ++i) {
-        if (strcmp(this->meetings[i]->getDate(), date) == 0) {
-            chosen.addMeeting(*this->meetings[i]);
+    Calendar **chosen = new Calendar*[7];
+    size_t size = 0;
+    chosen[0] = new Calendar("");
+    chosen[0]->addMeeting(*this->meetings[0]);
+
+    
+    for (int i = 1, j = 0, k = 0; i < this->size; ++i) {
+        if (startDateDays < getDateInDays(this->meetings[i]->getDate()) &&
+            getDateInDays(this->meetings[i]->getDate()) < endDateDays) {
+            
+            if (strcmp(this->meetings[i]->getDate(), chosen[j]->meetings[k]->getDate()) != 0) {
+                j++;
+                chosen[j] = new Calendar("");
+                chosen[j]->addMeeting(*this->meetings[i]);
+                k = 0;
+                size++;
+            } else {
+                chosen[j]->addMeeting(*this->meetings[i]);
+                k++;
+            }
         }
     }
 
+    cout << "here" << endl;
 
-    size_t lower = getTimeInMinutes(chosen.meetings[0]->getStartTime());
-    size_t upper = getTimeInMinutes(chosen.meetings[chosen.size - 1]->getEndTime());
+    for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < chosen[i]->size; ++i) {
+            size_t lower = getTimeInMinutes(chosen[i]->meetings[i]->getStartTime());
+            size_t upper = getTimeInMinutes(chosen[i]->meetings[chosen[i]->size - 1]->getEndTime());
 
-    size_t diff1 = 0, diff2 = 0;
-    if (lower > startMinutes || endMinutes > upper) {
-        if (lower > startMinutes) diff1 = lower - startMinutes;
-        if (endMinutes > upper) diff2 = endMinutes - upper;
+            size_t diff1 = 0, diff2 = 0;
+            if (lower > startMinutes || endMinutes > upper) {
+                if (lower > startMinutes) diff1 = lower - startMinutes;
+                if (endMinutes > upper) diff2 = endMinutes - upper;
 
-        if (diff1 >= duration || diff2 >= duration) {
-            if (diff1 >= duration) {
-                cout  << endl << "Between " << startTime << " and " << chosen.meetings[0]->getStartTime() << endl;
+                if (diff1 >= duration || diff2 >= duration) {
+                    if (diff1 >= duration) {
+                        cout << endl << chosen[i]->meetings[i]->getDate() << ": " << "between " 
+                            << startTime << " and " << chosen[i]->meetings[i]->getStartTime() << endl;
+                    }
+                    if (diff2 >= duration) {
+                        cout << endl << chosen[i]->meetings[i]->getDate() << ": " << "between " 
+                            << chosen[i]->meetings[i]->getEndTime() << " and " << endTime << endl;
+                    }
+
+                    found = true;
+                }
             }
-            if (diff2 >= duration) {
-                cout << endl << "Between " << chosen.meetings[0]->getEndTime() << " and " << endTime << endl;
-            }
-
-            found = true;
         }
     }
     
-    for (int i = 0; i < chosen.size - 1; ++i) {
-        size_t end = getTimeInMinutes(chosen.meetings[i]->getEndTime());
-        size_t start = getTimeInMinutes(chosen.meetings[i + 1]->getStartTime());
-        
-        if (start - end >= duration) {
-            cout  << endl << "Between " << chosen.meetings[i]->getEndTime() << " and "
-                            << chosen.meetings[i + 1]->getStartTime() << endl;
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < chosen[i]->size; ++j) {
+            size_t end = getTimeInMinutes(chosen[i]->meetings[j]->getEndTime());
+            size_t start = getTimeInMinutes(chosen[i]->meetings[j + 1]->getStartTime());
             
-            found = true;
+            if (start - end >= duration) {
+                cout  << endl << chosen[i]->meetings[i]->getDate() << ": " << "between " << chosen[i]->meetings[j]->getEndTime() << " and "
+                                << chosen[i]->meetings[j + 1]->getStartTime() << endl;
+                
+                found = true;
+            }
         }
     }
 

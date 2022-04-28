@@ -205,15 +205,20 @@ int main() {
                 calendar.saveByWorkHours(startDate, endDate);
             }
             else if (choice == 7) {
-                char dateBuff[DEFAULT_CAPACITY];
+                char startDateBuff[DEFAULT_CAPACITY];
+                char endDateBuff[DEFAULT_CAPACITY];
                 char rangeStart[DEFAULT_CAPACITY];
                 char rangeEnd[DEFAULT_CAPACITY];
                 size_t duration;
 
-                cout << "Date: ";
-                cin.getline(dateBuff, DEFAULT_CAPACITY);
-                char *date = new char[strlen(dateBuff) + 1];
-                strcpy(date, dateBuff);
+                cout << "Start date: ";
+                cin.getline(startDateBuff, DEFAULT_CAPACITY);
+                cout << "End date: ";
+                cin.getline(endDateBuff, DEFAULT_CAPACITY);
+                char *startDate = new char[strlen(startDateBuff) + 1];
+                char *endDate = new char[strlen(endDateBuff) + 1];
+                strcpy(startDate, startDateBuff);
+                strcpy(endDate, endDateBuff);
                 
                 cout << "Duration (in minutes): ";
                 cin >> duration;
@@ -229,7 +234,7 @@ int main() {
                     throw "Invalid time!";
                 }
 
-                if (!calendar.isThereTime(date, duration, rangeStart, rangeEnd)) {
+                if (!calendar.isThereTime(startDate, endDate, duration, rangeStart, rangeEnd)) {
                     throw "Free time: 404 (Not Found)";
                 }
                 wait = true;
