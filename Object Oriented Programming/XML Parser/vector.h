@@ -13,6 +13,7 @@ class Vector {
 public:
     Vector();
     Vector(size_t);
+    Vector(const T*, size_t, size_t);
     Vector(const Vector&);
     Vector& operator=(const Vector&);
     ~Vector();

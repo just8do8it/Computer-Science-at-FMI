@@ -33,6 +33,15 @@ Vector<T>::Vector(size_t capacity) {
 }
 
 template <typename T>
+Vector<T>::Vector(const T* items, size_t capacity, size_t size) {
+    this->size = size;
+    this->capacity = capacity;
+    for (int i = 0; i < this->size; ++i) {
+        this->items[i] = items[i];
+    }
+}
+
+template <typename T>
 Vector<T>::Vector(const Vector& other) {
     copyFrom(other);
 }
