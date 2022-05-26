@@ -1,14 +1,16 @@
 #ifndef NODE_HH
 #define NODE_HH
 #include <iostream>
-#include "nodemanager.h"
+#include "string.h"
+#include "vector.h"
+#include "pvector.h"
 
 class Node {
-	std::string id;
-	std::string name;
+	String id;
+	String name;
 	unsigned level;
-	// std::vector<std::pair<std::string, std::string>> attributes;
-	NodeManager nodeManager;
+	Vector<String> attributes;
+	PVector<Node> parentNodes;
 public:
 	virtual ~Node() = default;
 	virtual Node* clone() const = 0;

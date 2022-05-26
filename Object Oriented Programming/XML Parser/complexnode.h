@@ -4,7 +4,7 @@
 #include "node.h"
 
 class ComplexNode : public Node {
-	NodeManager childNodes;
+	Node** childNodes;
 public:
     Node* clone() const;
 };
