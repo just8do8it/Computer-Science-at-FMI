@@ -1,7 +1,6 @@
-#ifndef STRING_H
-#define STRING_H
+#ifndef STRING_HH
+#define STRING_HH
 #include <iostream>
-using namespace std;
 
 class String {
     char *data;
@@ -28,6 +27,6 @@ public:
 
 };
 
-ostream& operator<<(ostream&, const String&);
+std::ostream& operator<<(std::ostream&, const String&);
 
 #endif

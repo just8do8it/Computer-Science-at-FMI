@@ -1,4 +1,3 @@
-#include <iostream>
 #include <cstring>
 #include "string.h"
 
@@ -74,7 +73,7 @@ bool String::operator<(const String& other) const {
     return strcmp(this->data, other.data) < 0;
 }
 
-ostream& operator<<(ostream& out, const String& str) {
+std::ostream& operator<<(std::ostream& out, const String& str) {
     out << str.getData();
     return out;
 }
