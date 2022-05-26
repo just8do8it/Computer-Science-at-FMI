@@ -4,9 +4,12 @@
 #include "node.h"
 
 class ComplexNode : public Node {
-	Node** childNodes;
+	PVector<Node> childNodes;
 public:
-    Node* clone() const;
+    ComplexNode(String, String, PVector<Node>);
+	ComplexNode(String, String, Vector<Pair<String, String>>, PVector<Node>);
+	ComplexNode(String, String, Vector<Pair<String, String>>, PVector<Node>, PVector<Node>);
+	Node* clone() const override;
 };
 
 #endif

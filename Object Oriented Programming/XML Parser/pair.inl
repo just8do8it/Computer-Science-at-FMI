@@ -6,8 +6,8 @@ template <typename K, typename V>
 Pair<K, V>::Pair() {
     this->capacity = DEFAULT_CAPACITY;
     this->size = 0;
-    this->keys = new Vector<K>(this->capacity);
-    this->values = new Vector<V>(this->capacity);
+    this->keys = Vector<K>(this->capacity);
+    this->values = Vector<V>(this->capacity);
 }
 
 
@@ -15,8 +15,8 @@ template <typename K, typename V>
 Pair<K, V>::Pair(size_t capacity) {
     this->capacity = capacity;
     this->size = 0;
-    this->keys = new Vector<K>(this->capacity);
-    this->values = new Vector<V>(this->capacity);
+    this->keys = Vector<K>(this->capacity);
+    this->values = Vector<V>(this->capacity);
 }
 
 template <typename K, typename V>

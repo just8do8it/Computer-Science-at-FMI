@@ -13,6 +13,9 @@ class Node {
 	Vector<Pair<String, String>> attributes;
 	PVector<Node> parentNodes;
 public:
+	Node(String, String);
+	Node(String, String, Vector<Pair<String, String>>);
+	Node(String, String, Vector<Pair<String, String>>, PVector<Node>);
 	virtual ~Node() = default;
 	virtual Node* clone() const = 0;
 };
