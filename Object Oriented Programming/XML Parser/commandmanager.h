@@ -1,9 +1,9 @@
 #ifndef COMMAND_MANAGER_HH
 #define COMMAND_MANAGER_HH
-#include "nodemanager.h"
+#include "node.h"
 
 class CommandManager {
-	NodeManager nodeManager;
+	PVector<Node> nodes;
 	unsigned levelCount;
 public:
 	void print() const;
