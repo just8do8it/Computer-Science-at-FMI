@@ -100,8 +100,8 @@ const char* Calendar::getFilename() const {
     return this->filename;
 }
 
-Meeting** Calendar::getMeetings() const {
-    return this->meetings;
+const Meeting** Calendar::getMeetings() const {
+    return (const Meeting**)this->meetings;
 }
 
 size_t Calendar::getSize() const {
@@ -253,9 +253,10 @@ bool Calendar::changeDate(const Meeting& meeting, const char* date) {
 
     for (int i = 0; i < this->size; ++i) {
         if (*this->meetings[i] == meeting) {
-            this->meetings[i]->setDate(date);
-            Meeting *temp = new Meeting(*meetings[i]);
-            removeMeeting(*temp);
+            // ERROR (CHANGED)
+            Meeting *temp = new Meeting(*this->meetings[i]);
+            temp->setDate(date);
+            removeMeeting(*this->meetings[i]);
             addMeeting(*temp);
             sort();
             break;
@@ -271,10 +272,10 @@ bool Calendar::changeStartTime(const Meeting& meeting, const char* startTime) {
         if (*this->meetings[i] == meeting) {
             if (!timeIsValid(startTime, this->meetings[i]->getEndTime()))
                 return false;
-            
-            this->meetings[i]->setStartTime(startTime);
-            Meeting *temp = new Meeting(*meetings[i]);
-            removeMeeting(*temp);
+            // ERROR (CHANGED)
+            Meeting *temp = new Meeting(*this->meetings[i]);
+            temp->setStartTime(startTime);
+            removeMeeting(*this->meetings[i]);
             addMeeting(*temp);
             sort();
             break;
@@ -290,10 +291,10 @@ bool Calendar::changeEndTime(const Meeting& meeting, const char* endTime) {
         if (*this->meetings[i] == meeting) {
             if (!timeIsValid(this->meetings[i]->getStartTime(), endTime))
                 return false;
-            
-            this->meetings[i]->setEndTime(endTime);
-            Meeting *temp = new Meeting(*meetings[i]);
-            removeMeeting(*temp);
+            // ERROR (CHANGED)
+            Meeting *temp = new Meeting(*this->meetings[i]);
+            temp->setEndTime(endTime);
+            removeMeeting(*this->meetings[i]);
             addMeeting(*temp);
             sort();
             break;
@@ -395,7 +396,8 @@ void Calendar::saveByWorkHours(const char* startDate, const char* endDate) {
     result.save();
 }
 
-bool Calendar::isThereTime(const char* startDate, const char* endDate, size_t duration, const char* startTime, const char* endTime) {    bool found = false;
+bool Calendar::isThereTime(const char* startDate, const char* endDate, size_t duration, const char* startTime, const char* endTime) {    
+    bool found = false;
     size_t startDateDays = getDateInDays(startDate);
     size_t endDateDays = getDateInDays(endDate);
     size_t startMinutes = getTimeInMinutes(startTime);

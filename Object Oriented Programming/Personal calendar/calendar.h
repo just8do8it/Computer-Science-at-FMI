@@ -20,7 +20,7 @@ public:
     ~Calendar();
 
     const char* getFilename() const;
-    Meeting** getMeetings() const;
+    const Meeting** getMeetings() const;
     size_t getSize() const;
     size_t getCapacity() const;
 

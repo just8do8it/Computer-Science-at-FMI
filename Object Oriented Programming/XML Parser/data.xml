@@ -1,0 +1,25 @@
+<people>
+    <person id="0">
+        <name>John Smith</name>
+        <address>USA</address>
+    </person>
+    <person id="1">
+        <name>Ivan Petrov</name>
+        <address>Bulgaria</address>
+    </person>
+</people>
+
+<h:table xmlns:h="//www.w3.org/TR/html4/">
+  <h:tr>
+    <h:td>Apples</h:td>
+    <h:td>Bananas</h:td>
+  </h:tr>
+</h:table>
+
+<f:table xmlns:f="//www.w3schools.com/furniture">
+  <f:name>African Coffee Table</f:name>
+  <f:width>80</f:width>
+  <f:length>120</f:length>
+</f:table>
+
+</root>
