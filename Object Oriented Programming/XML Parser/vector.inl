@@ -62,6 +62,11 @@ Vector<T>::~Vector() {
 }
 
 template <typename T>
+T& Vector<T>::operator[](size_t index) const {
+    return this->items[index];
+}
+
+template <typename T>
 size_t Vector<T>::getCapacity() const {
     return this->capacity;
 }

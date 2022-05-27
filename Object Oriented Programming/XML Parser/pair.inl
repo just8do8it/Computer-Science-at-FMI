@@ -25,5 +25,5 @@ void Pair<K, V>::setValue(const V& value) {
 
 template <typename K, typename V>
 void Pair<K, V>::print() const {
-    std::cout << this->key << ": " << this->value << std::endl;
+    std::cout << this->key << "=" << "\"" << this->value << "\"";
 }

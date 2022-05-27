@@ -11,8 +11,8 @@ CommandManager::CommandManager(std::fstream& file) {
 }
 
 void CommandManager::print() const {
-    for (int i = 0; i < this->nodes.getSize(); ++i) {
-        if (this->nodes[i]->getLevel() == 0)
-            this->nodes[i]->print();
+    for (int i = 0; i < this->nodes->getSize(); ++i) {
+        if (this->nodes->operator[](i)->getLevel() == 0)
+            this->nodes->operator[](i)->print();
     }
 }

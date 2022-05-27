@@ -26,6 +26,8 @@ int main() {
     parents.add(node1);
     children.add(node2);
     attributes2.add(Pair<String, String>("color", "green"));
+    attributes2.add(Pair<String, String>("shape", "circle"));
+    attributes1.add(Pair<String, String>("color", "green"));
 
     PVector<Node> nodes;
     nodes.add(node2);

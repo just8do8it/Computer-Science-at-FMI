@@ -23,7 +23,19 @@ void TextNode::print() const {
     for (int i = 0; i < getLevel(); ++i) {
         tabs += "\t";
     }
-    std::cout << tabs << "<" << getName() << ">";
+
+    size_t attrCount = getAttributes()->getSize();
+    std::cout << tabs << "<" << getName() << " ";
+    
+    if (attrCount) {
+        getAttributes()->operator[](0).print();
+        for (int i = 1; i < attrCount; ++i) {
+            std::cout << " ";
+            getAttributes()->operator[](i).print();
+        }
+    }
+    std::cout << ">";
+
     std::cout << this->text;
     std::cout << "</" << getName() << ">" << std::endl;
 }

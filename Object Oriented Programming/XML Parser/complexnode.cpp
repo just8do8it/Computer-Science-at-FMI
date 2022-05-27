@@ -25,7 +25,17 @@ void ComplexNode::print() const {
         tabs += "\t";
     }
 
-    std::cout << tabs << "<" << getName() << ">" << std::endl;
+    size_t attrCount = getAttributes()->getSize();
+    std::cout << tabs << "<" << getName() << " ";
+
+    if (attrCount) {
+        getAttributes()->operator[](0).print();
+        for (int i = 1; i < attrCount; ++i) {
+            std::cout << " ";
+            getAttributes()->operator[](i).print();
+        }
+    }
+    std::cout << ">" << std::endl;
 
     for (int i = 0; i < this->childNodes->getSize(); ++i) {
         this->childNodes->operator[](i)->print();

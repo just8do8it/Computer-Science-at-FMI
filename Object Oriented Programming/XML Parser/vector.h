@@ -18,6 +18,7 @@ public:
     Vector& operator=(const Vector&);
     ~Vector();
 
+    T& operator[](size_t) const;
     size_t getCapacity() const;
     size_t getSize() const;
     
