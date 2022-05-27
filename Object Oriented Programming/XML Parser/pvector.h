@@ -17,11 +17,12 @@ public:
     PVector& operator=(const PVector&);
     ~PVector();
 
+    T* operator[](size_t) const;
     size_t getCapacity() const;
     size_t getSize() const;
 
     void resize();
-    void add(const T&);
+    void add(T*);
 };
 
 #include "pvector.inl"

@@ -25,6 +25,7 @@ public:
     bool operator>(const String&) const;
     bool operator<(const String&) const;
 
+    friend std::istream& operator>>(std::istream&, String&);
 };
 
 std::ostream& operator<<(std::ostream&, const String&);

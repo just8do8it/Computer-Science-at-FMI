@@ -5,22 +5,16 @@
 
 template <typename K, typename V>
 class Pair {
-    Vector<K> keys;
-    Vector<V> values;
-    size_t capacity;
-    size_t size;
+    K key;
+    V value;
 public:
-    Pair();
-    Pair(size_t);
+    Pair() = default;
+    Pair(const K&, const V&);
 
-    size_t getCapacity() const;
-    size_t getSize() const;
-    
-    void resize(size_t);
-    void addEntry(const K& key, const V& value);
-    V& findValue(const K& key);
-    void sortByKey();
-    void print();
+    const K& getKey() const;
+    const V& getValue() const;
+    void setValue(const V&);
+    void print() const;
 };
 
 #include "pair.inl"

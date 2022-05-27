@@ -1,7 +1,10 @@
 #include <cstring>
 #include "string.h"
+#define DEFAULT_CAPACITY 8
 
-String::String() {}
+String::String() {
+    this->data = new char[DEFAULT_CAPACITY];
+}
 
 void String::copyFrom(const String& other) {
     this->data = new char[strlen(other.getData()) + 1];
@@ -72,6 +75,17 @@ bool String::operator>(const String& other) const {
 bool String::operator<(const String& other) const {
     return strcmp(this->data, other.data) < 0;
 }
+
+std::istream& operator>>(std::istream& in, String& str) {
+    char buff[1024];
+    in >> buff;
+    delete[] str.data;
+    str.data = new char[strlen(buff) + 1];
+    strcpy(str.data, buff);
+
+    return in;
+}
+
 
 std::ostream& operator<<(std::ostream& out, const String& str) {
     out << str.getData();

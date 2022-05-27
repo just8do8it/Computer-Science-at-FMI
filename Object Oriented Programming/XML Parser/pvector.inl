@@ -56,6 +56,12 @@ PVector<T>::~PVector() {
     free();
 }
 
+
+template <typename T>
+T* PVector<T>::operator[](size_t index) const {
+    return this->items[index];
+}
+
 template <typename T>
 size_t PVector<T>::getCapacity() const {
     return this->capacity;
@@ -79,7 +85,7 @@ void PVector<T>::resize() {
 }
 
 template <typename T>
-void PVector<T>::add(const T& item) {
+void PVector<T>::add(T* item) {
     if (this->size + 1 == this->capacity) {
         resize();
     }

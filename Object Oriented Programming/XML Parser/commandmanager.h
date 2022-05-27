@@ -1,10 +1,11 @@
 #ifndef COMMAND_MANAGER_HH
 #define COMMAND_MANAGER_HH
+#include <iostream>
 #include <fstream>
 #include "node.h"
 
 class CommandManager {
-	PVector<Node> nodes;
+	PVector<Node>* nodes;
 	unsigned levelCount;
 public:
 	CommandManager(std::fstream&);

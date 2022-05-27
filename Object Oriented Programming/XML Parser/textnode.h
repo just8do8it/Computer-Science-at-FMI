@@ -6,10 +6,13 @@
 class TextNode : public Node {
 	String text;
 public:
-	TextNode(String, String, String);
-	TextNode(String, String, Vector<Pair<String, String>>, String);
-	TextNode(String, String, Vector<Pair<String, String>>, PVector<Node>, String);
+	TextNode(String, String, unsigned, String);
+	TextNode(String, String, unsigned, Vector<Pair<String, String>>*, String);
+	TextNode(String, String, unsigned, Vector<Pair<String, String>>*, PVector<Node>*, String);
+	
+	const String& getText() const;
 	Node* clone() const override;
+	void print() const override;
 };
 
 #endif
