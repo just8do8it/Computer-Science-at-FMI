@@ -77,8 +77,8 @@ size_t Vector<T>::getSize() const {
 }
 
 template <typename T>
-void Vector<T>::resize() {
-    T* temp = new T[this->capacity * 2];
+void Vector<T>::resize(size_t capacity) {
+    T* temp = new T[capacity];
 
     for (int i = 0; i < this->size; ++i) {
         temp[i] = this->items[i];
@@ -89,9 +89,28 @@ void Vector<T>::resize() {
 }
 
 template <typename T>
+void Vector<T>::remove(const T& item) {
+    bool flag = false;
+    for (int i = 0; i < this->size - 1; ++i) {
+        if (this->items[i] == item) {
+            flag = true;
+        }
+        if (flag) {
+            this->items[i] = this->items[i + 1];
+        }
+    }
+
+    this->size--;
+
+    if (this->size - 1 <= this->capacity / 3) {
+        resize(this->size);
+    }
+}
+
+template <typename T>
 void Vector<T>::add(const T& item) {
     if (this->size + 1 == this->capacity) {
-        resize();
+        resize(this->capacity * 2);
     }
 
     this->items[this->size] = item;

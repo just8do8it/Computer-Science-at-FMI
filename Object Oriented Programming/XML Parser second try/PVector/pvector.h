@@ -17,7 +17,9 @@ public:
     PVector& operator=(const PVector&);
     ~PVector();
 
-    T* operator[](size_t) const;
+    void copyWithSharedPointers(const PVector&);
+    void set(size_t, T*);
+    T* operator[](size_t);
     size_t getCapacity() const;
     size_t getSize() const;
 

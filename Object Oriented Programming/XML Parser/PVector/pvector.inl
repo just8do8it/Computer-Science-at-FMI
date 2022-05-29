@@ -14,6 +14,18 @@ void PVector<T>::copyFrom(const PVector& other) {
 }
 
 template <typename T>
+void PVector<T>::copyWithSharedPointers(const PVector& other) {
+    free();
+    this->size = other.size;
+    this->capacity = other.capacity;
+
+    this->items = new T*[this->capacity];
+    for (int i = 0; i < this->size; ++i) {
+        this->items[i] = other.items[i];
+    }
+}
+
+template <typename T>
 void PVector<T>::free() {
     for (int i = 0; i < this->size; ++i) {
         delete this->items[i];
@@ -58,7 +70,23 @@ PVector<T>::~PVector() {
 
 
 template <typename T>
-T* PVector<T>::operator[](size_t index) const {
+void PVector<T>::set(size_t index, T* item) {
+    // if (item == nullptr) {
+    //     throw "Nullptr exception!";
+    // }
+    if (index >= this->size) {
+        throw "Index out of range!";
+    }
+
+    this->items[index] = item;
+}
+
+
+template <typename T>
+T* PVector<T>::operator[](size_t index) {
+    if (index >= this->size) {
+        throw "Index out of range!";
+    }
     return this->items[index];
 }
 
@@ -86,6 +114,9 @@ void PVector<T>::resize() {
 
 template <typename T>
 void PVector<T>::add(T* item) {
+    if (item == nullptr) {
+        throw "Nullptr exception!";
+    }
     if (this->size + 1 == this->capacity) {
         resize();
     }

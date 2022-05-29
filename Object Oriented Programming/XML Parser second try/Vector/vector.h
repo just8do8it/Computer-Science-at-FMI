@@ -22,7 +22,8 @@ public:
     size_t getCapacity() const;
     size_t getSize() const;
     
-    void resize();
+    void resize(size_t);
+    void remove(const T&);
     void add(const T&);
 };
 
