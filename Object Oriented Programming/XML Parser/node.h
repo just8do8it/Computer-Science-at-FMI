@@ -1,29 +1,33 @@
 #ifndef NODE_HH
 #define NODE_HH
-#include <iostream>
-#include "String/string.h"
+#include <string>
 #include "Vector/vector.h"
 #include "PVector/pvector.h"
-#include "Pair/pair.h"
+#include "Dictionary/dictionary.h"
 
 class Node {
-	String id;
-	String name;
+	std::string id;
+	std::string name;
 	unsigned level;
-	Vector<Pair<String, String>>* attributes;
-	PVector<Node>* parentNodes;
+	Dictionary<std::string, std::string> attributes;
+	Node* parent;
+
+	void copyFrom(const Node&);
+	void free();
 public:
-	Node(String, String, unsigned);
-	Node(String, String, unsigned, Vector<Pair<String, String>>*);
-	Node(String, String, unsigned, Vector<Pair<String, String>>*, PVector<Node>*);
-
-	const String& getId() const;
-	const String& getName() const;
+	Node(std::string, std::string, unsigned, Dictionary<std::string, std::string>, Node*);
+	Node(const Node&);
+	Node& operator=(const Node&);
+	
+	const std::string& getId() const;
+	const std::string& getName() const;
 	const unsigned& getLevel() const;
-	const Vector<Pair<String, String>>* getAttributes() const;
-	const PVector<Node>* getParentNodes() const;
+	const Dictionary<std::string, std::string>& getAttributes() const;
+	const Node* getParent() const;
 
-	virtual ~Node() = default;
+	void setParent(Node*);
+
+	virtual ~Node();
 	virtual Node* clone() const = 0;
 	virtual void print() const = 0;
 };

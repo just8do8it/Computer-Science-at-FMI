@@ -1,31 +1,49 @@
 #include "filemanager.h"
 
-const String& FileManager::getCurrFilename() const {
+FileManager* FileManager::instance = nullptr;
+
+FileManager* FileManager::getInstance() {
+    if (instance == nullptr) {
+        instance = new FileManager();
+    }
+
+    return instance;
+}
+
+void FileManager::free() {
+    delete instance;
+}
+
+const std::string& FileManager::getCurrFilename() const {
     return this->currFilename;
 }
 
-void FileManager::open(String currFilename, CommandManager* cm) {
-    this->currFilename = currFilename;
-    std::fstream file(this->currFilename.getData());
+CommandManager* FileManager::open() {
+    std::string filename;
+    std::cout << "Filename: ";
+    std::cin >> filename;
+
+    this->currFilename = filename;
+    std::fstream file(filename);
 
     if (file.fail()) {
         throw "Can't open the file!";
     }
 
 
-    cm = new CommandManager(file);
+    return new CommandManager(file);
 }
 
 // void FileManager::save();
 
-// void FileManager::saveAs(String filename) {
+// void FileManager::saveAs(std::string filename) {
 
 // }
 
 // void FileManager::close();
 
 void FileManager::help() const {
-    std::cout << "The following commands are supported: " << std::endl;
+    std::cout << "The following commands are supported: " << std::endl << std::endl;
     std::cout << "open <file>           opens <file>" << std::endl;
     std::cout << "close                 closes currently opened file" << std::endl;
     std::cout << "save                  saves the currently open file" << std::endl;

@@ -1,7 +1,7 @@
 #include "commandmanager.h"
 
 CommandManager::CommandManager(std::fstream& file) {
-    this->nodes = new PVector<Node>();
+    this->rootNodes = PVector<Node>();
     this->levelCount = 0;
 
     size_t start = file.tellg();
@@ -10,9 +10,20 @@ CommandManager::CommandManager(std::fstream& file) {
     file.seekg(0, std::ios::beg);
 }
 
+const PVector<Node>& CommandManager::getRootNodes() const {
+    return this->rootNodes;
+}
+
+unsigned CommandManager::getLevelCount() const {
+    return this->levelCount;
+}
+	
+void CommandManager::insertRoot(Node* node) {
+    this->rootNodes.add(node);
+}
+
 void CommandManager::print() const {
-    for (int i = 0; i < this->nodes->getSize(); ++i) {
-        if (this->nodes->operator[](i)->getLevel() == 0)
-            this->nodes->operator[](i)->print();
+    for (int i = 0; i < this->rootNodes.getSize(); ++i) {
+        this->rootNodes[i]->print();
     }
 }

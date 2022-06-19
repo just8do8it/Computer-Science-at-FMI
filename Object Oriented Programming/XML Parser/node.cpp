@@ -1,21 +1,50 @@
 #include "node.h"
 
-Node::Node(String id, String name, unsigned level) : id(id), name(name), level(level) {
-    this->attributes = new Vector<Pair<String, String>>();
-    this->parentNodes = new PVector<Node>();
+void Node::copyFrom(const Node& other) {
+    if (other.parent == nullptr) {
+        this->parent = nullptr;
+    } else {
+        this->parent = other.parent->clone();
+    }
 }
 
-Node::Node(String id, String name, unsigned level, Vector<Pair<String, String>>* attributes) 
-: id(id), name(name), level(level), attributes(attributes) {}
+void Node::free() {
+    delete this->parent;
+}
 
-Node::Node(String id, String name, unsigned level, Vector<Pair<String, String>>* attributes, PVector<Node>* parentNodes) 
-: id(id), name(name), level(level), attributes(attributes), parentNodes(parentNodes) {}
+Node::Node(std::string id, std::string name, unsigned level, Dictionary<std::string, std::string> attributes, 
+        Node* parent) 
+: id(id), name(name), level(level), attributes(attributes) {
+    if (parent != nullptr) {
+        this->parent = parent->clone();
+    } else {
+        this->parent = nullptr;
+    }
+}
 
-const String& Node::getId() const {
+Node::Node(const Node& other)
+: id(other.id), name(other.name), level(other.level), attributes(other.attributes) {
+    copyFrom(other);
+}
+
+Node& Node::operator=(const Node& other) {
+    if (this != &other) {
+        free();
+        copyFrom(other);
+    }
+
+    return *this;
+}
+
+Node::~Node() {
+    free();
+}
+
+const std::string& Node::getId() const {
     return this->id;
 }
 
-const String& Node::getName() const {
+const std::string& Node::getName() const {
     return this->name;
 }
 
@@ -23,10 +52,17 @@ const unsigned& Node::getLevel() const {
     return this->level;
 }
 
-const Vector<Pair<String, String>>* Node::getAttributes() const {
+const Dictionary<std::string, std::string>& Node::getAttributes() const {
     return this->attributes;
 }
 
-const PVector<Node>* Node::getParentNodes() const {
-    return this->parentNodes;
+const Node* Node::getParent() const {
+    return this->parent;
+}
+
+void Node::setParent(Node* other) {
+    if (other == nullptr) {
+        throw "Nullptr parent exception!";
+    }
+    this->parent = other;
 }

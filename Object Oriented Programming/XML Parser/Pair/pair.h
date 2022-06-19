@@ -1,7 +1,6 @@
 #ifndef PAIR_HH
 #define PAIR_HH
 #include <iostream>
-#include "../Vector/vector.h"
 
 template <typename K, typename V>
 class Pair {

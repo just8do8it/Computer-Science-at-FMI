@@ -1,19 +1,24 @@
 #ifndef FILE_MANAGER_HH
 #define FILE_MANAGER_HH
-#include <fstream>
 #include "commandmanager.h"
-#include "node.h"
 
 class FileManager {
-	String currFilename;
-public:
+    static FileManager *instance;
+	std::string currFilename;
     FileManager() = default;
+public:
+    FileManager(const FileManager&) = delete;
+    FileManager(FileManager&&) = delete;
+    FileManager& operator=(const FileManager&) = delete;
+    FileManager& operator=(FileManager&&) = delete;
 
-    const String& getCurrFilename() const;
-    
-	void open(String, CommandManager*);
+    static FileManager* getInstance();
+    void free();
+    const std::string& getCurrFilename() const;
+
+	CommandManager* open();
     void save();
-    void saveAs(String);
+    void saveAs(std::string);
     void close();
     void help() const;
 };
