@@ -17,7 +17,6 @@ public:
     PVector& operator=(const PVector&);
     ~PVector();
 
-    void set(size_t, T*);
     T* operator[](size_t) const;
     size_t getCapacity() const;
     size_t getSize() const;

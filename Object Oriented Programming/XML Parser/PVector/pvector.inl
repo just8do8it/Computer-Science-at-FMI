@@ -8,7 +8,7 @@ void PVector<T>::copyFrom(const PVector& other) {
     this->capacity = other.capacity;
     this->items = new T*[this->capacity];
     for (int i = 0; i < this->size; ++i) {
-        this->items[i] = other.items[i];
+        this->items[i] = other.items[i]->clone();
     }
 }
 
@@ -55,20 +55,6 @@ PVector<T>::~PVector() {
     free();
 }
 
-
-template <typename T>
-void PVector<T>::set(size_t index, T* item) {
-    if (item == nullptr) {
-        throw "Nullptr exception!";
-    }
-    if (index >= this->size) {
-        throw "Index out of range!";
-    }
-
-    this->items[index] = item;
-}
-
-
 template <typename T>
 T* PVector<T>::operator[](size_t index) const {
     if (index >= this->size) {
@@ -93,9 +79,11 @@ void PVector<T>::resize() {
 
     for (int i = 0; i < this->size; ++i) {
         temp[i] = this->items[i];
+        this->items[i] = nullptr;
     }
 
-    free();
+    delete[] this->items;
+
     this->items = temp;
 }
 
