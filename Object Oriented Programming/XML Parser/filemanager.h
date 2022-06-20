@@ -16,7 +16,7 @@ public:
     void free();
     const std::string& getCurrFilename() const;
 
-	CommandManager* open();
+	void open(std::string);
     void save();
     void saveAs(std::string);
     void close();

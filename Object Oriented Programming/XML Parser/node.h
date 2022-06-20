@@ -6,6 +6,7 @@
 #include "Dictionary/dictionary.h"
 
 class Node {
+	std::string type;
 	std::string id;
 	std::string name;
 	unsigned level;
@@ -15,10 +16,11 @@ class Node {
 	void copyFrom(const Node&);
 	void free();
 public:
-	Node(std::string, std::string, unsigned, Dictionary<std::string, std::string>, Node*);
+	Node(std::string, std::string, std::string, unsigned, Dictionary<std::string, std::string>, Node*);
 	Node(const Node&);
 	Node& operator=(const Node&);
 	
+	const std::string& getType() const;
 	const std::string& getId() const;
 	const std::string& getName() const;
 	const unsigned& getLevel() const;

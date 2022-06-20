@@ -12,9 +12,9 @@ void Node::free() {
     delete this->parent;
 }
 
-Node::Node(std::string id, std::string name, unsigned level, Dictionary<std::string, std::string> attributes, 
+Node::Node(std::string type, std::string id, std::string name, unsigned level, Dictionary<std::string, std::string> attributes, 
         Node* parent) 
-: id(id), name(name), level(level), attributes(attributes) {
+: type(type), id(id), name(name), level(level), attributes(attributes) {
     if (parent != nullptr) {
         this->parent = parent->clone();
     } else {
@@ -23,7 +23,7 @@ Node::Node(std::string id, std::string name, unsigned level, Dictionary<std::str
 }
 
 Node::Node(const Node& other)
-: id(other.id), name(other.name), level(other.level), attributes(other.attributes) {
+: type(other.type), id(other.id), name(other.name), level(other.level), attributes(other.attributes) {
     copyFrom(other);
 }
 
@@ -38,6 +38,10 @@ Node& Node::operator=(const Node& other) {
 
 Node::~Node() {
     free();
+}
+
+const std::string& Node::getType() const {
+    return this->type;
 }
 
 const std::string& Node::getId() const {

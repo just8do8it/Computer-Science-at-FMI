@@ -86,14 +86,26 @@ void Dictionary<K, V>::addEntry(Pair<K, V>* pair) {
     }
 
     this->pairs[this->size] = *pair;
+    sortByKey();
     this->size++;
 }
 
 template <typename K, typename V>
-V& Dictionary<K, V>::getValue(const K& key) {
+const V& Dictionary<K, V>::getValue(const K& key) const {
     for (int i = 0; i < this->size; ++i) {
         if (this->pairs[i].getKey() == key) {
             return this->pairs[i].getValue();
+        }
+    }
+
+    throw "No such key!";
+}
+
+template <typename K, typename V>
+void Dictionary<K, V>::setValue(const K& key, const V& value) const {
+    for (int i = 0; i < this->size; ++i) {
+        if (this->pairs[i].getKey() == key) {
+           this->pairs[i].setValue(value);
         }
     }
 
@@ -127,8 +139,7 @@ size_t Dictionary<K, V>::getCapacity() const {
 }
 
 template <typename K, typename V>
-void Dictionary<K, V>::print() {
-    sortByKey();
+void Dictionary<K, V>::print() const {
     for (int i = 0; i < this->size; ++i) {
         std::cout << this->pairs[i].getKey() << ": " << this->pairs[i].getValue() << std::endl;
     }

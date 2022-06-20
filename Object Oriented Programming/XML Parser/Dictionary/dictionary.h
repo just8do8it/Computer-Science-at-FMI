@@ -24,9 +24,10 @@ public:
     Pair<K, V>& operator[](size_t) const;
     void resize(size_t);
     void addEntry(Pair<K, V>*);
-    V& getValue(const K& key);
+    const V& getValue(const K& key) const;
+    void setValue(const K& key, const V& value) const;
     void sortByKey();
-    void print();
+    void print() const;
 };
 
 

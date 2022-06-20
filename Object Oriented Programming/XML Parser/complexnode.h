@@ -5,8 +5,7 @@
 class ComplexNode : public Node {
 	PVector<Node> children;
 public:
-	ComplexNode(std::string, std::string, unsigned, Dictionary<std::string, std::string>, Node*, PVector<Node>);
-	ComplexNode(const ComplexNode&);
+	ComplexNode(std::string, std::string, std::string, unsigned, Dictionary<std::string, std::string>, Node*, PVector<Node>);
 	const PVector<Node>& getChildren() const;
 	void addChild(Node*);
 	Node* clone() const override;

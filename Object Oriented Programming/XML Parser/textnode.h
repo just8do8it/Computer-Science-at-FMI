@@ -5,7 +5,7 @@
 class TextNode : public Node {
 	std::string text;
 public:
-	TextNode(std::string, std::string, unsigned, Dictionary<std::string, std::string>, 
+	TextNode(std::string, std::string, std::string, unsigned, Dictionary<std::string, std::string>, 
 			Node*, std::string);
 	
 	const std::string& getText() const;

@@ -18,20 +18,8 @@ const std::string& FileManager::getCurrFilename() const {
     return this->currFilename;
 }
 
-CommandManager* FileManager::open() {
-    // std::string filename;
-    // std::cout << "Filename: ";
-    // std::cin >> filename;
-
-    this->currFilename = "data.xml";
-    std::fstream file("data.xml");
-
-    if (file.fail()) {
-        throw "Can't open the file!";
-    }
-
-
-    return new CommandManager(file);
+void FileManager::open(std::string filename) {
+    this->currFilename = filename;
 }
 
 // void FileManager::save();

@@ -1,19 +1,11 @@
 #include "complexnode.h"
 
-ComplexNode::ComplexNode(std::string id, std::string name, unsigned level, Dictionary<std::string, std::string> attributes, 
+ComplexNode::ComplexNode(std::string type, std::string id, std::string name, unsigned level, Dictionary<std::string, std::string> attributes, 
                 Node* parent, PVector<Node> children)
-: Node(id, name, level, attributes, parent) {
+: Node(type, id, name, level, attributes, parent) {
     this->children = PVector<Node>(children.getCapacity());
     for (int i = 0; i < children.getSize(); ++i) {
         this->children.add(children[i]->clone());
-    }
-}
-
-ComplexNode::ComplexNode(const ComplexNode& other) : Node(other) {
-    this->children = PVector<Node>(other.children.getCapacity());
-
-    for (int i = 0; i < other.children.getSize(); ++i) {
-        this->children.add(other.children[i]->clone());
     }
 }
 
@@ -38,11 +30,12 @@ void ComplexNode::streamPrint(std::ostream& out) const {
     }
 
     size_t attrCount = getAttributes().getSize();
-    out << tabs << "<" << getName();
-    if (attrCount > 0)
-        out << " ";
+    out << tabs << "<" << getName();       
+
+    out << " id=\"" << this->getId() << "\"";
 
     if (attrCount) {
+        out << " ";
         getAttributes()[0].print();
         for (int i = 1; i < attrCount; ++i) {
             out << " ";

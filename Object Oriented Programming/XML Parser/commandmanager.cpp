@@ -88,13 +88,13 @@ CommandManager::CommandManager(std::fstream& file) {
                 Node *currNode;
                 
                 if (content[j + 1] < 33) {
-                    currNode = new ComplexNode(id, name, lvl, attributes, nullptr, PVector<Node>());
+                    currNode = new ComplexNode("complex", id, name, lvl, attributes, nullptr, PVector<Node>());
                     i = j - 1;
                 } else {
                     std::string text;
                     int h;
                     for (h = 0; content[j + h] != '<'; ++h) {}
-                    currNode = new TextNode(id, name, lvl, attributes, nullptr, content.substr(j + 1, h - 1));
+                    currNode = new TextNode("text", id, name, lvl, attributes, nullptr, content.substr(j + 1, h - 1));
                     i = j - 1 + h;
                 }
 
@@ -125,6 +125,7 @@ CommandManager::CommandManager(std::fstream& file) {
             else closed++;
         }
         level = opened - closed;
+        if (this->levelCount < level) this->levelCount = level;
 
     }
 }
@@ -141,8 +142,74 @@ void CommandManager::insertRoot(Node* node) {
     this->rootNodes.add(node);
 }
 
+void CommandManager::print() const {
+    streamPrintAll(std::cout);
+}
+
 void CommandManager::streamPrintAll(std::ostream& out) const {
     for (int i = 0; i < this->rootNodes.getSize(); ++i) {
         this->rootNodes[i]->streamPrint(out);
     }
 }
+
+Node* CommandManager::getNode(PVector<Node> nodes, const std::string& id) const {
+    for (int i = 0; i < nodes.getSize(); ++i) {
+        Node *curr = nodes[i];
+        if (curr->getType() == "text") {
+            if (curr->getId() == id) {
+                return curr;
+            }
+        } else {
+            int size = ((ComplexNode*)curr)->getChildren().getSize();
+            for (int j = 0; j < size; ++j) {
+                if (curr->getId() == id) {
+                    return curr;
+                } else {
+                    return getNode(((ComplexNode*)curr)->getChildren(), id);
+                }
+            }
+        }
+    }
+
+    return nullptr;
+}
+
+
+void CommandManager::select(const std::string& id, const std::string& key) const {
+    Node *node = getNode(this->rootNodes, id);
+    if (node == nullptr) {
+        std::cout << "No such value!" << std::endl;
+    } else {
+        std::cout << node->getAttributes().getValue(key) << std::endl;
+    }
+}
+
+void CommandManager::set(const std::string& id, const std::string& key, const std::string& value) {
+    Node *node = getNode(this->rootNodes, id);
+    if (node == nullptr) {
+        std::cout << "No such key!" << std::endl;
+    } else {
+        node->getAttributes().setValue(key, value);
+    }
+}
+
+void CommandManager::children(const std::string& id) const {
+    Node *node = getNode(this->rootNodes, id);
+    if (node == nullptr) {
+        std::cout << "No such value!" << std::endl;
+    } else {
+        node->getAttributes().print();
+    }
+}
+
+void CommandManager::children(const std::string& id, const unsigned& n) const {
+    Node *node = getNode(this->rootNodes, id);
+    if (n < node->getLevel() || n > this->levelCount || node->getType() == "text") {
+        std::cout << "No such children!" << std::endl;
+    } else {
+        
+    }
+}
+
+
+
