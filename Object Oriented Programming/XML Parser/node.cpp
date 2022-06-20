@@ -56,7 +56,7 @@ const Dictionary<std::string, std::string>& Node::getAttributes() const {
     return this->attributes;
 }
 
-const Node* Node::getParent() const {
+Node* Node::getParent() const {
     return this->parent;
 }
 

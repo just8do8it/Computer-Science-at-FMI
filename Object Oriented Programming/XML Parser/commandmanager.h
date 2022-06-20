@@ -14,7 +14,7 @@ public:
 
 	void insertRoot(Node*);
 
-	void print() const;
+	void streamPrintAll(std::ostream&) const;
 	void select(const unsigned& id, const std::string& key) const;
 	void set(const unsigned& id, const std::string& key, const std::string& value);
 	void children(const unsigned& id) const;

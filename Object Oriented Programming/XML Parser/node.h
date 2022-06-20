@@ -23,13 +23,13 @@ public:
 	const std::string& getName() const;
 	const unsigned& getLevel() const;
 	const Dictionary<std::string, std::string>& getAttributes() const;
-	const Node* getParent() const;
+	Node* getParent() const;
 
 	void setParent(Node*);
 
 	virtual ~Node();
 	virtual Node* clone() const = 0;
-	virtual void print() const = 0;
+	virtual void streamPrint(std::ostream&) const = 0;
 };
 
 #endif

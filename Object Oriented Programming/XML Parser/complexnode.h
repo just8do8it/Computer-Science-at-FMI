@@ -10,7 +10,7 @@ public:
 	const PVector<Node>& getChildren() const;
 	void addChild(Node*);
 	Node* clone() const override;
-	void print() const override;
+	void streamPrint(std::ostream&) const override;
 };
 
 #endif

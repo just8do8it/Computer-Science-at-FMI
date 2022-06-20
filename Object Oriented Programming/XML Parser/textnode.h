@@ -10,7 +10,7 @@ public:
 	
 	const std::string& getText() const;
 	Node* clone() const override;
-	void print() const override;
+	void streamPrint(std::ostream&) const override;
 };
 
 #endif

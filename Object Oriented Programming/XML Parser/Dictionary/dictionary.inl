@@ -89,23 +89,6 @@ void Dictionary<K, V>::addEntry(Pair<K, V>* pair) {
     this->size++;
 }
 
-// template <>
-// void Dictionary<String, Node*>::addEntry(Pair<String, Node*>& pair) {
-//     if (this->size + 1 == this->capacity) {
-//         resize(this->capacity * 2);
-//     }
-
-//     for (int i = 0; i < this->size; ++i) {
-//         if (this->pairs[i].getKey() == pair.getKey()) {
-//             throw "Already existing pair!";
-//         }
-//     }
-
-//     this->pairs[this->size] = Pair<String, Node*>(pair.getKey(), pair.getValue()->clone());
-//     this->size++;
-// }
-
-
 template <typename K, typename V>
 V& Dictionary<K, V>::getValue(const K& key) {
     for (int i = 0; i < this->size; ++i) {
@@ -120,6 +103,7 @@ V& Dictionary<K, V>::getValue(const K& key) {
 
 template <typename K, typename V>
 void Dictionary<K, V>::sortByKey() {
+    if (this->size == 0) return;
     for (int i = 0; i < this->size - 1; ++i) {
         for (int j = 0; j < this->size - i - 1; ++j) {
             if (this->pairs[i].getKey() > this->pairs[i + 1].getKey()) {

@@ -31,27 +31,29 @@ void ComplexNode::addChild(Node* node) {
     this->children.add(node);
 }
 
-void ComplexNode::print() const {
+void ComplexNode::streamPrint(std::ostream& out) const {
     std::string tabs("");
     for (int i = 0; i < getLevel(); ++i) {
         tabs += "\t";
     }
 
     size_t attrCount = getAttributes().getSize();
-    std::cout << tabs << "<" << getName() << " ";
+    out << tabs << "<" << getName();
+    if (attrCount > 0)
+        out << " ";
 
     if (attrCount) {
         getAttributes()[0].print();
         for (int i = 1; i < attrCount; ++i) {
-            std::cout << " ";
+            out << " ";
             getAttributes()[i].print();
         }
     }
-    std::cout << ">" << std::endl;
+    out << ">\n";
 
     for (int i = 0; i < this->children.getSize(); ++i) {
-        this->children[i]->print();
+        this->children[i]->streamPrint(out);
     }
 
-    std::cout << tabs << "</" << getName() << ">" << std::endl;
+    out << tabs << "</" << getName() << ">\n";
 }
