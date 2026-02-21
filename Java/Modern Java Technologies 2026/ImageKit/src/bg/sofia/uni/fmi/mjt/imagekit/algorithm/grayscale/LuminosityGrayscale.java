@@ -16,15 +16,24 @@ public class LuminosityGrayscale implements GrayscaleAlgorithm {
             for (int j = 0; j < width; ++j) {
                 int rgb = image.getRGB(j, i);
 
-                double alpha =  (rgb >> 24) & 0xFF;
-                double r     =  (rgb >> 16) & 0xFF;
-                double g     =  (rgb >> 8)  & 0xFF;
-                double b     =   rgb        & 0xFF;
+                int    a = (rgb >> 24) & 0xFF;
+                double r = (rgb >> 16) & 0xFF;
+                double b = (rgb >>  8) & 0xFF;
+                double g =  rgb        & 0xFF;
 
-                r *= Math.round(0.21 * r);
-                g *= Math.round(0.72 * g);
-                b *= Math.round(0.07 * b);
-                int grayscaleRGB = ((int)alpha << 24) | ((int)r << 16) | ((int)g << 8) | (int)b;
+                r = 0.21 * r;
+                g = 0.72 * g;
+                b = 0.07 * b;
+
+                double averageBeforeAmplification  = (r + g + b) / 3;
+                double averageCoefficientForAmplification = (0.21 + 0.72 + 0.07) / 3;
+                double averageAfterAmplification = averageBeforeAmplification / averageCoefficientForAmplification;
+                int average = (int) averageAfterAmplification;
+
+                int grayscaleRGB = (a << 24) |
+                        (average << 16) |
+                        (average << 8) |
+                         average;
                 resImage.setRGB(j, i, grayscaleRGB);
             }
         }

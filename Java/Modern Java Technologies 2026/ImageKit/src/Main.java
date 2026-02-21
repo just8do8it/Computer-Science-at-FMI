@@ -16,7 +16,7 @@ public class Main {
 
         FileSystemImageManager fsImageManager = new LocalFileSystemImageManager();
 
-        BufferedImage image = fsImageManager.loadImage(new File(path + "kitten.png"));
+        BufferedImage image = fsImageManager.loadImage(new File(path + "car.jpg"));
 
         ImageAlgorithm grayscaleAlgorithm = new LuminosityGrayscale();
         BufferedImage grayscaleImage = grayscaleAlgorithm.process(image);
